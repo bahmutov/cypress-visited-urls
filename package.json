@@ -7,7 +7,7 @@
     "bin",
     "src"
   ],
-  "alias": {
+  "bin": {
     "find-specs-by-url": "./bin/find-specs-by-url.js"
   },
   "scripts": {
