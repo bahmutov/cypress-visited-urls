@@ -1,0 +1,26 @@
+{
+  "name": "cypress-visited-urls",
+  "version": "1.0.0",
+  "description": "A plugin to collect all visited urls across all specs",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bahmutov/cypress-visited-urls.git"
+  },
+  "keywords": [
+    "cypress-plugin"
+  ],
+  "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bahmutov/cypress-visited-urls/issues"
+  },
+  "homepage": "https://github.com/bahmutov/cypress-visited-urls#readme",
+  "devDependencies": {
+    "cypress": "^14.0.3",
+    "prettier": "^3.5.1"
+  }
+}
