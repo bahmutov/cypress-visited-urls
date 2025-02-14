@@ -29,4 +29,39 @@ describe('updateVisitedUrls', () => {
       'moo should be between foo and zoo',
     ).to.deep.equal(['foo', 'moo', 'zoo'])
   })
+
+  it('sorts the test titles for each spec', () => {
+    const allVisitedUrls = {
+      zoo: {
+        'my test title': [],
+        aaa1: [],
+      },
+      foo: {
+        'my other test title': [],
+      },
+    }
+
+    const { updated, allUrls } = updateVisitedUrls({
+      allVisitedUrls,
+      specName: 'zoo',
+      testName: 'b1',
+      testUrls: [],
+    })
+
+    expect(updated, 'updated').to.be.true
+
+    expect(
+      allUrls,
+      'spec names and titles sorted alphabetically',
+    ).to.deep.equal({
+      foo: {
+        'my other test title': [],
+      },
+      zoo: {
+        aaa1: [],
+        b1: [],
+        'my test title': [],
+      },
+    })
+  })
 })
