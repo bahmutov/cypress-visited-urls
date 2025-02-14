@@ -1,5 +1,8 @@
 // @ts-check
 
+//
+// utilities
+//
 function shouldCollectUrls() {
   const pluginConfig = Cypress.env('visitedUrls')
   return Boolean(pluginConfig?.collect)
@@ -24,6 +27,12 @@ beforeEach(() => {
   }
 })
 
+function printTextToTerminal(text) {
+  cy.task('visited-urls-plugin:terminal', text, { log: false })
+}
+//
+// hooks
+//
 afterEach(function saveVisitedUrls() {
   const collectUrls = shouldCollectUrls()
   if (!collectUrls) {
@@ -42,11 +51,7 @@ afterEach(function saveVisitedUrls() {
   const urls = set.values().toArray()
   const text = `visited ${urls.length} URL(s): ${urls.join(', ')}`
   cy.log(`This test ${text}`)
-  cy.task(
-    'visited-urls-plugin:terminal',
-    `${specName} test "${testName}" ${text}`,
-    { log: false },
-  )
+  printTextToTerminal(`${specName} test "${testName}" ${text}`)
 
   const filename = getVisitedUrlsFilename()
   if (filename) {
@@ -72,6 +77,9 @@ afterEach(function saveVisitedUrls() {
         if (!Cypress._.isEqual(copy, visitedUrls)) {
           cy.log('**saving updated visited urls**')
           cy.writeFile(filename, visitedUrls)
+          printTextToTerminal(
+            `wrote updated visited urls file ${filename}`,
+          )
         } else {
           cy.log('no changes to visited urls')
         }

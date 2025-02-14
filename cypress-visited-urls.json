@@ -1,13 +1,13 @@
 {
+  "cypress/e2e/homepage.cy.js": {
+    "The home page / goes using the link": [
+      "/public/index.html"
+    ]
+  },
   "cypress/e2e/about.cy.js": {
     "The about page / goes using the link": [
       "/public/index.html",
       "/public/about.html"
-    ]
-  },
-  "cypress/e2e/homepage.cy.js": {
-    "The home page / goes using the link": [
-      "/public/index.html"
     ]
   }
 }
