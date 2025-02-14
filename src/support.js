@@ -64,7 +64,7 @@ afterEach(function saveVisitedUrls() {
         if (!visitedUrls) {
           visitedUrls = {}
         }
-        const updated = updateVisitedUrls({
+        const { updated, allUrls } = updateVisitedUrls({
           allVisitedUrls: visitedUrls,
           specName,
           testName,
@@ -73,7 +73,7 @@ afterEach(function saveVisitedUrls() {
 
         if (updated) {
           cy.log('**saving updated visited urls**')
-          cy.writeFile(filename, visitedUrls)
+          cy.writeFile(filename, allUrls)
           printTextToTerminal(
             `wrote updated visited urls file ${filename}`,
           )
