@@ -17,4 +17,6 @@ describe('The about page', () => {
         ])
       })
   })
+
+  it('does something else', () => {})
 })

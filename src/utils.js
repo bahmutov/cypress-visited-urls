@@ -1,5 +1,16 @@
 // @ts-check
 
+function sortKeys(obj) {
+  const result = {}
+  Object.keys(obj)
+    .sort()
+    .forEach((key) => {
+      result[key] = obj[key]
+    })
+
+  return result
+}
+
 /**
  * @typedef {object} UpdateParams
  * @property {Record<string, object>} allVisitedUrls
@@ -30,15 +41,11 @@ function updateVisitedUrls({
   // and the value is the list of urls visited during this test
   const specTests = allVisitedUrls[specName] || {}
   specTests[testName] = testUrls
-  allVisitedUrls[specName] = specTests
+  // sort the test titles
+  allVisitedUrls[specName] = sortKeys(specTests)
 
   // sort the spec names in the url object for easy maintenance
-  const sortedSpecNames = Object.keys(allVisitedUrls).sort()
-  const sortedObj = {}
-  sortedSpecNames.forEach((specName) => {
-    sortedObj[specName] = allVisitedUrls[specName]
-  })
-  allVisitedUrls = sortedObj
+  allVisitedUrls = sortKeys(allVisitedUrls)
 
   const updated = !Cypress._.isEqual(copy, allVisitedUrls)
   return { updated, allUrls: allVisitedUrls }
