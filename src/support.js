@@ -24,7 +24,9 @@ beforeEach(() => {
       const baseUrl =
         Cypress.config('baseUrl') || Cypress.config('proxyUrl') || ''
       url = url.replace(baseUrl, '')
-      Cypress.env('visitedUrlsSet').add(url)
+      if (url) {
+        Cypress.env('visitedUrlsSet').add(url)
+      }
     })
   }
 })
