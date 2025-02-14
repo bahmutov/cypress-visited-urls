@@ -6,6 +6,15 @@ describe('The about page', () => {
     cy.contains('a', 'About').click()
     cy.location('pathname').should('eq', '/public/about.html')
     cy.go('back')
-    cy.location('pathname').should('eq', '/public/index.html')
+    cy.location('pathname')
+      .should('eq', '/public/index.html')
+      .log('**check collected urls**')
+      .then(() => {
+        const urls = Cypress.env('visitedUrlsSet').values().toArray()
+        expect(urls, 'urls').to.deep.equal([
+          '/public/index.html',
+          '/public/about.html',
+        ])
+      })
   })
 })

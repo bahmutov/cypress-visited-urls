@@ -2,7 +2,10 @@
   "name": "cypress-visited-urls",
   "version": "1.0.0",
   "description": "A plugin to collect all visited urls across all specs",
-  "main": "index.js",
+  "main": "src/support.js",
+  "files": [
+    "src"
+  ],
   "scripts": {
     "test": "cypress run"
   },
