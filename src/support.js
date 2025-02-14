@@ -25,8 +25,21 @@ afterEach(function saveVisitedUrls() {
     return
   }
 
+  const state = this.currentTest?.state
+  if (state !== 'passed') {
+    return
+  }
+
+  const specName = Cypress.spec.relative
+  const testName = Cypress.currentTest.titlePath.join(' / ')
+
   const set = Cypress.env('visitedUrlsSet')
   const urls = set.values().toArray()
-  const text = `This test visited ${urls.length} URLs: ${urls.join(', ')}`
-  cy.log(text)
+  const text = `visited ${urls.length} URL(s): ${urls.join(', ')}`
+  cy.log(`This test ${text}`)
+  cy.task(
+    'visited-urls-plugin:terminal',
+    `${specName} test "${testName}" ${text}`,
+    { log: false },
+  )
 })

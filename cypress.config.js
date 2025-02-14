@@ -14,6 +14,9 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
       // and load any plugins that require the Node environment
+      require('./src/plugin')(on, config)
+      // return the config object
+      return config
     },
   },
 })
