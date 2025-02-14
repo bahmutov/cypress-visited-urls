@@ -9,5 +9,8 @@
     "The home page / goes using the link": [
       "/public/index.html"
     ]
+  },
+  "cypress/e2e/utils.cy.js": {
+    "updateVisitedUrls / sorts the spec names": []
   }
 }

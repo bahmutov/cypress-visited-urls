@@ -12,7 +12,7 @@
  * with the information for a single test. The original reference object `allVisitedUrls`
  * is updated with the new information.
  * @param {UpdateParams} parameters
- * @returns {boolean} true if the object was updated
+ * @returns {{ updated: boolean, allUrls: Record<string, any>}} true if the object was updated
  */
 function updateVisitedUrls({
   allVisitedUrls,
@@ -32,8 +32,16 @@ function updateVisitedUrls({
   specTests[testName] = testUrls
   allVisitedUrls[specName] = specTests
 
-  const updatedUrls = !Cypress._.isEqual(copy, allVisitedUrls)
-  return updatedUrls
+  // sort the spec names in the url object for easy maintenance
+  const sortedSpecNames = Object.keys(allVisitedUrls).sort()
+  const sortedObj = {}
+  sortedSpecNames.forEach((specName) => {
+    sortedObj[specName] = allVisitedUrls[specName]
+  })
+  allVisitedUrls = sortedObj
+
+  const updated = !Cypress._.isEqual(copy, allVisitedUrls)
+  return { updated, allUrls: allVisitedUrls }
 }
 
 module.exports = { updateVisitedUrls }
