@@ -5,6 +5,11 @@ function shouldCollectUrls() {
   return Boolean(pluginConfig?.collect)
 }
 
+function getVisitedUrlsFilename() {
+  const pluginConfig = Cypress.env('visitedUrls')
+  return pluginConfig?.urlsFilename
+}
+
 beforeEach(() => {
   const collectUrls = shouldCollectUrls()
   if (collectUrls) {
@@ -42,4 +47,34 @@ afterEach(function saveVisitedUrls() {
     `${specName} test "${testName}" ${text}`,
     { log: false },
   )
+
+  const filename = getVisitedUrlsFilename()
+  if (filename) {
+    cy.readFile(filename, { log: false })
+      // file might not exist, we will create it then
+      .should(Cypress._.noop)
+      .then((visitedUrls) => {
+        if (!visitedUrls) {
+          visitedUrls = {}
+        }
+        const copy = Cypress._.cloneDeep(visitedUrls)
+
+        // update the object with the new urls
+        // this is will be an object
+        // spec relative path  is the key
+        // value is another object
+        // where the key is the test title (with "/" separators)
+        // and the value is the list of urls visited during this test
+        const specTests = visitedUrls[specName] || {}
+        specTests[testName] = urls
+        visitedUrls[specName] = specTests
+
+        if (!Cypress._.isEqual(copy, visitedUrls)) {
+          cy.log('**saving updated visited urls**')
+          cy.writeFile(filename, visitedUrls)
+        } else {
+          cy.log('no changes to visited urls')
+        }
+      })
+  }
 })

@@ -1,6 +1,7 @@
 const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
+  defaultBrowser: 'electron',
   e2e: {
     // baseUrl, etc
     env: {
@@ -8,6 +9,7 @@ module.exports = defineConfig({
         // collect each URL the test runner visits
         // https://glebbahmutov.com/blog/collect-tested-urls/
         collect: true,
+        urlsFilename: 'cypress-visited-urls.json',
       },
     },
 
