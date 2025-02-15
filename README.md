@@ -2,6 +2,12 @@
 
 > A plugin to collect all visited urls across all specs
 
+## Learn more
+
+- 📝 blog post [Collect All URLs Visited During Cypress Test](https://glebbahmutov.com/blog/collect-tested-urls/)
+- 📝 blog post [Run Cypress Tests For The Given URL](https://glebbahmutov.com/blog/run-cypress-tests-for-the-given-url/)
+- 🎓 online course [Testing The Swag Store](https://cypress.tips/courses/swag-store)
+
 ## Install
 
 Add this plugin as a dev dependency
