@@ -6,6 +6,11 @@
       "/public/about.html"
     ]
   },
+  "cypress/e2e/filter-urls.cy.js": {
+    "filtering URLs / filters query parameters": [
+      "/public/index.html"
+    ]
+  },
   "cypress/e2e/homepage.cy.js": {
     "The home page / goes using the link": [
       "/public/index.html"
