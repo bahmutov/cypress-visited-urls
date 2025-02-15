@@ -5,6 +5,8 @@ const { updateVisitedUrls } = require('./utils')
 //
 // utilities
 //
+let filterUrl = Cypress._.identity
+
 function shouldCollectUrls() {
   const pluginConfig = Cypress.env('visitedUrls')
   return Boolean(pluginConfig?.collect)
@@ -25,7 +27,10 @@ beforeEach(() => {
         Cypress.config('baseUrl') || Cypress.config('proxyUrl') || ''
       url = url.replace(baseUrl, '')
       if (url) {
-        Cypress.env('visitedUrlsSet').add(url)
+        const filteredUrl = filterUrl(url)
+        if (filteredUrl) {
+          Cypress.env('visitedUrlsSet').add(filteredUrl)
+        }
       }
     })
   }
@@ -85,3 +90,7 @@ afterEach(function saveVisitedUrls() {
       })
   }
 })
+
+export function configureVisitedUrls(options = {}) {
+  filterUrl = options.filterUrl || Cypress._.identity
+}
