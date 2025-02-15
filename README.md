@@ -18,7 +18,10 @@ $ yarn add -D cypress-visited-urls
 ```js
 // cypress/support/e2e.js
 
-import 'cypress-visited-urls'
+// https://glebbahmutov.com/blog/collect-tested-urls/
+import { configureVisitedUrls } from 'cypress-visited-urls'
+
+configureVisitedUrls()
 ```
 
 **Note:** since the component specs do not visit meaningful URLs, we only configure this plugin in the E2E tests.
@@ -59,10 +62,7 @@ Often the visited URLs have dynamic or random parts to them. To "normalize" the 
 ```js
 // cypress/support/e2e.js
 
-// do not simply import the plugin
-// import 'cypress-visited-urls'
-
-// instead import configuration method
+// https://glebbahmutov.com/blog/collect-tested-urls/
 import { configureVisitedUrls } from 'cypress-visited-urls'
 
 configureVisitedUrls({
