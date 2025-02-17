@@ -10,6 +10,12 @@ jobs:
       - name: Run tests
         uses: cypress-io/github-action@v6
 
+      - name: Show specs by URL
+        run: npm run demo-find
+
+      - name: Show merging of URLs files
+        run: npm run demo-merge
+
       - name: commit updated urls file
         # https://github.com/stefanzweifel/git-auto-commit-action
         uses: stefanzweifel/git-auto-commit-action@v5
