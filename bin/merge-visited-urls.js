@@ -13,7 +13,10 @@ const args = arg({
 debug('parsed arguments', args)
 
 console.log('Loading files following pattern "%s"', args['--files'])
-const allFiles = globby.sync(args['--files'], {
+const patterns = args['--files'].split(',')
+debug('globby patterns', patterns)
+
+const allFiles = globby.sync(patterns, {
   absolute: true,
 })
 debug('found %d json files', allFiles.length)
