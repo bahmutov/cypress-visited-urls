@@ -8,12 +8,14 @@
     "src"
   ],
   "bin": {
-    "find-specs-by-url": "./bin/find-specs-by-url.js"
+    "find-specs-by-url": "./bin/find-specs-by-url.js",
+    "merge-visited-urls": "./bin/merge-visited-urls.js"
   },
   "scripts": {
     "test": "cypress run",
     "semantic-release": "semantic-release",
-    "demo-find": "DEBUG=cypress-visited-urls node ./bin/find-specs-by-url.js -f cypress-visited-urls.json -u index.html"
+    "demo-find": "DEBUG=cypress-visited-urls node ./bin/find-specs-by-url.js -f cypress-visited-urls.json -u index.html",
+    "demo-merge": "DEBUG=cypress-visited-urls node ./bin/merge-visited-urls.js --files 'example-files/urls-*.json' --output merged-urls.json"
   },
   "repository": {
     "type": "git",
@@ -35,6 +37,7 @@
   },
   "dependencies": {
     "arg": "^5.0.2",
-    "debug": "^4.4.0"
+    "debug": "^4.4.0",
+    "globby": "^11"
   }
 }

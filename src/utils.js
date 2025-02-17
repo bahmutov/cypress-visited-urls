@@ -1,15 +1,6 @@
 // @ts-check
 
-function sortKeys(obj) {
-  const result = {}
-  Object.keys(obj)
-    .sort()
-    .forEach((key) => {
-      result[key] = obj[key]
-    })
-
-  return result
-}
+const { sortKeys } = require('./universal-utils')
 
 /**
  * @typedef {object} UpdateParams
