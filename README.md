@@ -7,6 +7,7 @@
 - 📝 blog post [Collect All URLs Visited During Cypress Test](https://glebbahmutov.com/blog/collect-tested-urls/)
 - 📝 blog post [Run Cypress Tests For The Given URL](https://glebbahmutov.com/blog/run-cypress-tests-for-the-given-url/)
 - 🎓 online course [Testing The Swag Store](https://cypress.tips/courses/swag-store)
+- 🎁 example project [bahmutov/cypress-visited-urls-example](https://github.com/bahmutov/cypress-visited-urls-example)
 
 ## Install
 
@@ -105,6 +106,12 @@ If you have multiple JSON files with visited URLs, you can merge them into a sin
 
 ```
 $ npx merge-visited-urls --files 'folder/*.json' --output 'visited-urls.json'
+```
+
+**Tip:** visited urls are updated only when the test is successful. To avoid "losing" visited URL information if a test fails, you can merge the existing JSON urls file together with new updates by passing it first
+
+```
+$ npx merge-visited-urls --files 'visited-urls.json,folder/*.json' --output 'visited-urls.json'
 ```
 
 ## Small print
