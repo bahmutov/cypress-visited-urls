@@ -99,6 +99,14 @@ $ npx cypress run --spec $(npx find-specs-by-url -f cypress-visited-urls.json -u
 # runs a single spec in this repo
 ```
 
+## Merge visited URLs JSON files
+
+If you have multiple JSON files with visited URLs, you can merge them into a single JSON file
+
+```
+$ npx merge-visited-urls --files 'folder/*.json' --output 'visited-urls.json'
+```
+
 ## Small print
 
 Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2025

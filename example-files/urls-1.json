@@ -1,0 +1,14 @@
+{
+  "cypress/e2e/about.cy.js": {
+    "The about page / does something else": [],
+    "The about page / goes using the link": [
+      "/public/index.html",
+      "/public/about.html"
+    ]
+  },
+  "cypress/e2e/filter-urls.cy.js": {
+    "filtering URLs / filters query parameters": [
+      "/public/index.html"
+    ]
+  }
+}
