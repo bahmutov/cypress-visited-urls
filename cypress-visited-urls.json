@@ -17,6 +17,7 @@
     ]
   },
   "cypress/e2e/utils.cy.js": {
+    "Merging objects / merges right to left": [],
     "updateVisitedUrls / sorts the spec names": [],
     "updateVisitedUrls / sorts the test titles for each spec": []
   }

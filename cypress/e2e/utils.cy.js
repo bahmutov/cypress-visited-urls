@@ -65,3 +65,13 @@ describe('updateVisitedUrls', () => {
     })
   })
 })
+
+describe('Merging objects', () => {
+  it('merges right to left', () => {
+    const merged = {
+      letter: 'a',
+    }
+    Object.assign(merged, { letter: 'b' }, { letter: 'c' })
+    expect(merged, 'merged object').to.deep.equal({ letter: 'c' })
+  })
+})
