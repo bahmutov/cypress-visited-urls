@@ -61,12 +61,15 @@ afterEach(function saveVisitedUrls() {
   if (!set) {
     return
   }
+  if (!(set instanceof Set)) {
+    return
+  }
 
   const values = set.values()
   if (!values) {
     return
   }
-  const urls = values.toArray() || []
+  const urls = [...values]
   const text = `visited ${urls.length} URL(s): ${urls.join(', ')}`
   cy.log(`This test ${text}`)
   printTextToTerminal(`${specName} test "${testName}" ${text}`)
