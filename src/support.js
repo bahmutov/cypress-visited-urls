@@ -57,7 +57,16 @@ afterEach(function saveVisitedUrls() {
   const testName = Cypress.currentTest.titlePath.join(' / ')
 
   const set = Cypress.env('visitedUrlsSet')
-  const urls = set.values().toArray()
+  // be defensive about values
+  if (!set) {
+    return
+  }
+
+  const values = set.values()
+  if (!values) {
+    return
+  }
+  const urls = values.toArray() || []
   const text = `visited ${urls.length} URL(s): ${urls.join(', ')}`
   cy.log(`This test ${text}`)
   printTextToTerminal(`${specName} test "${testName}" ${text}`)
