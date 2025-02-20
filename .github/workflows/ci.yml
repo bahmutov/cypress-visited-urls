@@ -11,7 +11,7 @@ jobs:
         uses: cypress-io/github-action@v6
 
       - name: Show specs by URL
-        run: npm run demo-find
+        run: npm run demo-find -- --set-gha-outputs
 
       - name: Show merging of URLs files
         run: npm run demo-merge
