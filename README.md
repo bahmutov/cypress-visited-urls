@@ -100,6 +100,10 @@ $ npx cypress run --spec $(npx find-specs-by-url -f cypress-visited-urls.json -u
 # runs a single spec in this repo
 ```
 
+### set GitHub Actions outputs
+
+Add flag `--set-gha-outputs` to save the list of found specs and their number in the outputs `visitedSpecs` and `visitedSpecsN`
+
 ## Merge visited URLs JSON files
 
 If you have multiple JSON files with visited URLs, you can merge them into a single JSON file
