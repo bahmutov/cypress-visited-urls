@@ -82,6 +82,33 @@ configureVisitedUrls({
 
 The returned URL will be stored in the JSON file. If you return a falsy value, the URL won't be added.
 
+### preSaveFilterUrls
+
+Once the test finishes and the plugin prepares to save the updated visited URLs file, you can prefilter / modify all URLs for the current test.
+
+```js
+// cypress/support/e2e.js
+
+// https://glebbahmutov.com/blog/collect-tested-urls/
+import { configureVisitedUrls } from 'cypress-visited-urls'
+
+configureVisitedUrls({
+  // currentUrls and previousUrls are two arrays
+  // with the current test run and the previously saved URLs for this test
+  // currentUrls: string[]
+  // previousUrls: string[]
+  // specName: string relative spec name
+  // testName: string full test title
+  preSaveFilterUrls(currentUrls, previousUrls, specName, testName) {
+    // remove all urls that point at the /?callback_ for example
+    // and are not in the previously saved list
+    return currentUrls.filter(
+      (s) => s.startsWith('/?callback_') && previousUrls.includes(s),
+    )
+  },
+})
+```
+
 ## Find specs
 
 You can find all specs with tests that visit a particular URL using partial string match

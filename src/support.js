@@ -6,6 +6,7 @@ const { updateVisitedUrls } = require('./utils')
 // utilities
 //
 let filterUrl = Cypress._.identity
+let preSaveFilterUrls = Cypress._.identity
 
 function shouldCollectUrls() {
   const pluginConfig = Cypress.env('visitedUrls')
@@ -83,11 +84,32 @@ afterEach(function saveVisitedUrls() {
         if (!visitedUrls) {
           visitedUrls = {}
         }
+
+        let filteredTestUrls = urls
+        // the current test urls for this test
+        const currentTestUrls = visitedUrls[specName]?.[testName]
+        if (
+          Array.isArray(currentTestUrls) &&
+          currentTestUrls.length
+        ) {
+          // we have already saved the urls for this test before
+          // let the user look at these list and the list of new urls
+          filteredTestUrls = preSaveFilterUrls(
+            filteredTestUrls,
+            currentTestUrls,
+            specName,
+            testName,
+          )
+          if (!filteredTestUrls) {
+            filteredTestUrls = urls
+          }
+        }
+
         const { updated, allUrls } = updateVisitedUrls({
           allVisitedUrls: visitedUrls,
           specName,
           testName,
-          testUrls: urls,
+          testUrls: filteredTestUrls,
         })
 
         if (updated) {
@@ -105,4 +127,8 @@ afterEach(function saveVisitedUrls() {
 
 export function configureVisitedUrls(options = {}) {
   filterUrl = options.filterUrl || Cypress._.identity
+  if ('preSaveFilterUrls' in options) {
+    // @ts-ignore
+    preSaveFilterUrls = options.preSaveFilterUrls
+  }
 }

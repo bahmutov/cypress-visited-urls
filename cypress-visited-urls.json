@@ -6,15 +6,19 @@
       "/public/about.html"
     ]
   },
+  "cypress/e2e/filter-before-save.cy.js": {
+    "Filter before save / filters URLs for this test before saving": [
+      "prefilter-save: /public/index.html",
+      "prefilter-save: /public/about.html"
+    ]
+  },
   "cypress/e2e/filter-urls.cy.js": {
     "filtering URLs / filters query parameters": [
       "/public/index.html"
     ]
   },
   "cypress/e2e/homepage.cy.js": {
-    "The home page / goes using the link": [
-      "/public/index.html"
-    ]
+    "The home page / goes using the link": ["/public/index.html"]
   },
   "cypress/e2e/utils.cy.js": {
     "Merging objects / merges right to left": [],
