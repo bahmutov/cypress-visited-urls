@@ -1,0 +1,21 @@
+name: update visited urls
+on:
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  update-visited-urls:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run tests
+        uses: cypress-io/github-action@v6
+
+      - name: commit updated urls file
+        # https://github.com/stefanzweifel/git-auto-commit-action
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Updated urls file
+          branch: main
+          file_pattern: cypress-visited-urls.json
