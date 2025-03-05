@@ -17,6 +17,7 @@ jobs:
         run: npm run demo-merge
 
       - name: commit updated urls file
+        if: github.ref == 'refs/heads/main'
         # https://github.com/stefanzweifel/git-auto-commit-action
         uses: stefanzweifel/git-auto-commit-action@v5
         with:

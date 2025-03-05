@@ -1,4 +1,5 @@
 // @ts-check
+/// <reference types="cypress" />
 
 const { updateVisitedUrls } = require('./utils')
 
@@ -6,7 +7,24 @@ const { updateVisitedUrls } = require('./utils')
 // utilities
 //
 let filterUrl = Cypress._.identity
-let preSaveFilterUrls = Cypress._.identity
+/**
+ * Optional filter for all urls collected in the test.
+ * Receives the list of URLs collect for the test during the current run
+ * plus the list of URLs collected for the same test in the previous runs.
+ * This function is called after the test has finished but before saving
+ * the new list of URLs to the JSON file.
+ * @param {VisitedUrls.VisitedPage[]} urlsInThisTest
+ * @param {string[]} previousUrlsInThisTest
+ * @param {string} specName
+ * @param {string} testName
+ * @returns {VisitedUrls.VisitedPage[]}
+ */
+let preSaveFilterUrls = (
+  urlsInThisTest,
+  previousUrlsInThisTest,
+  specName,
+  testName,
+) => urlsInThisTest
 
 function shouldCollectUrls() {
   const pluginConfig = Cypress.env('visitedUrls')
@@ -21,7 +39,11 @@ function getVisitedUrlsFilename() {
 beforeEach(() => {
   const collectUrls = shouldCollectUrls()
   if (collectUrls) {
+    // TODO: deprecate this set of just urls
+    // in favor of visitedUrlsTimeStamps that has urls and durations
     Cypress.env('visitedUrlsSet', new Set())
+    Cypress.env('visitedUrlsTimeStamps', [])
+
     Cypress.on('url:changed', (url) => {
       // remove the base url
       const baseUrl =
@@ -31,6 +53,11 @@ beforeEach(() => {
         const filteredUrl = filterUrl(url)
         if (filteredUrl) {
           Cypress.env('visitedUrlsSet').add(filteredUrl)
+          const timestamps = Cypress.env('visitedUrlsTimeStamps')
+          timestamps.push({
+            url: filteredUrl,
+            timestamp: +Date.now(),
+          })
         }
       }
     })
@@ -57,21 +84,52 @@ afterEach(function saveVisitedUrls() {
   const specName = Cypress.spec.relative
   const testName = Cypress.currentTest.titlePath.join(' / ')
 
-  const set = Cypress.env('visitedUrlsSet')
-  // be defensive about values
-  if (!set) {
-    return
-  }
-  if (!(set instanceof Set)) {
+  /** @type {VisitedUrls.VisitedPage[]} */
+  let urls
+
+  const timestamps = Cypress.env('visitedUrlsTimeStamps')
+  if (Array.isArray(timestamps) && timestamps.length) {
+    const now = +Date.now()
+    const durations = timestamps.map((ts, k) => {
+      const { url, timestamp } = ts
+      if (k === timestamps.length - 1) {
+        return {
+          url,
+          timestamp,
+          duration: now - timestamp,
+        }
+      } else {
+        const next = timestamps[k + 1]
+        return {
+          url,
+          timestamp,
+          duration: next.timestamp - timestamp,
+        }
+      }
+    })
+    // console.table(durations)
+    // compute the total duration spent on each page
+    const pageDurations = {}
+    // debugger
+    durations.forEach((d) => {
+      const { url, duration } = d
+      const prev = pageDurations[url]
+      if (prev) {
+        prev.duration += duration
+        pageDurations[url] = prev
+      } else {
+        pageDurations[url] = { url, duration }
+      }
+    })
+    urls = Object.values(pageDurations)
+    urls.sort((a, b) => b.duration - a.duration)
+    // console.table(urls)
+  } else {
     return
   }
 
-  const values = set.values()
-  if (!values) {
-    return
-  }
-  const urls = [...values]
-  const text = `visited ${urls.length} URL(s): ${urls.join(', ')}`
+  const pages = urls.map((url) => url.url)
+  const text = `visited ${pages.length} URL(s): ${pages.join(', ')}`
   cy.log(`This test ${text}`)
   printTextToTerminal(`${specName} test "${testName}" ${text}`)
 

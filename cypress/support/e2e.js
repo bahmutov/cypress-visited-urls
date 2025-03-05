@@ -26,8 +26,9 @@ configureVisitedUrls({
       testName ===
         'Filter before save / filters URLs for this test before saving'
     ) {
-      return visitedUrls.map((url) => {
-        return 'prefilter-save: ' + url
+      return visitedUrls.map(({ url, duration }) => {
+        expect(duration, 'duration is a number').to.be.a('number')
+        return { url: 'prefilter-save: ' + url, duration }
       })
     }
 

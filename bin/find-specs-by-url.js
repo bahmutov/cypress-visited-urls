@@ -26,7 +26,8 @@ for (const spec of Object.keys(urls)) {
   const tests = Object.keys(urls[spec])
   for (const test of tests) {
     const testUrls = urls[spec][test]
-    for (const testUrl of testUrls) {
+    for (const pageInformation of testUrls) {
+      const testUrl = pageInformation.url
       if (testUrl.includes(args['--url'])) {
         specs.push({
           spec,

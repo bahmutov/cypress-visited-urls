@@ -7,7 +7,7 @@ const { sortKeys } = require('./universal-utils')
  * @property {Record<string, object>} allVisitedUrls
  * @property {string} specName
  * @property {string} testName
- * @property {string[]} testUrls
+ * @property {VisitedUrls.VisitedPage[]} testUrls
  */
 /**
  * Combines the existing record with all urls visited by all specs
