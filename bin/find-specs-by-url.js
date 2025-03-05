@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
-const path = require('path')
+// @ts-check
 const arg = require('arg')
+const path = require('path')
 const debug = require('debug')('cypress-visited-urls')
 const core = require('@actions/core')
+const { findSpecsByUrl } = require('../src/find-specs')
 
 const args = arg({
   '--filename': String,
@@ -18,30 +20,19 @@ const args = arg({
 })
 debug('parsed arguments', args)
 
-const urls = require(path.resolve(args['--filename']))
-debug('loaded URLs from file', args['--filename'])
-
-const specs = []
-for (const spec of Object.keys(urls)) {
-  const tests = Object.keys(urls[spec])
-  for (const test of tests) {
-    const testUrls = urls[spec][test]
-    for (const pageInformation of testUrls) {
-      const testUrl = pageInformation.url
-      if (testUrl.includes(args['--url'])) {
-        specs.push({
-          spec,
-          test,
-          url: testUrl,
-        })
-      }
-    }
-  }
+if (!args['--filename']) {
+  throw new Error('Missing --filename argument')
 }
-debug(specs)
 
-// print just the spec names
-const uniqueSpecs = [...new Set(specs.map((o) => o.spec))]
+const filename = args['--filename']
+const urls = require(path.resolve(filename))
+debug('loaded URLs from file', filename)
+
+const uniqueSpecs = findSpecsByUrl({
+  urls,
+  filename,
+  url: args['--url'],
+})
 console.log(uniqueSpecs.join(','))
 
 if (args['--set-gha-outputs']) {
