@@ -60,6 +60,33 @@ export default defineConfig({
 })
 ```
 
+## Run in the collection mode
+
+If you are using `collect: true` in the Cypress config file, you can turn the collection via environment variable by looking at the environment
+
+```js
+e2e: {
+  // baseUrl, etc
+  env: {
+    visitedUrls: {
+      // by default, do not collect any URLS
+      collect: false,
+    },
+  },
+
+  setupNodeEvents(on, config) {
+    // only collect visited URLs on CI
+    if (process.env.CI) {
+      console.log('setting to collect visited urls on CI')
+      config.env.visitedUrls.collect = true
+    }
+    cypressVisitedUrls(on, config)
+    // return the config object
+    return config
+  },
+},
+```
+
 ## Features
 
 The saved JSON file will have information for each spec and test. For each test, it saves a list of visited pages sorted by the total time spent on the page. See [cypress-visited-urls.json](./cypress-visited-urls.json) for example.
