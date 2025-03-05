@@ -1,14 +1,29 @@
 {
   "cypress/e2e/about.cy.js": {
-    "The about page / does something else": [],
     "The about page / goes using the link": [
       {
         "url": "/public/index.html",
-        "duration": 174
+        "duration": 149,
+        "commandsCount": 6
       },
       {
         "url": "/public/about.html",
-        "duration": 41
+        "duration": 54,
+        "commandsCount": 2
+      }
+    ]
+  },
+  "cypress/e2e/command-counts.cy.js": {
+    "Command counts / counts commands per page": [
+      {
+        "url": "/public/index.html",
+        "duration": 135,
+        "commandsCount": 6
+      },
+      {
+        "url": "/public/about.html",
+        "duration": 59,
+        "commandsCount": 2
       }
     ]
   },
@@ -16,11 +31,13 @@
     "Filter before save / filters URLs for this test before saving": [
       {
         "url": "prefilter-save: /public/index.html",
-        "duration": 157
+        "duration": 148,
+        "commandsCount": 0
       },
       {
         "url": "prefilter-save: /public/about.html",
-        "duration": 59
+        "duration": 60,
+        "commandsCount": 0
       }
     ]
   },
@@ -28,7 +45,8 @@
     "filtering URLs / filters query parameters": [
       {
         "url": "/public/index.html",
-        "duration": 18
+        "duration": 14,
+        "commandsCount": 2
       }
     ]
   },
@@ -36,7 +54,8 @@
     "The home page / goes using the link": [
       {
         "url": "/public/index.html",
-        "duration": 31
+        "duration": 21,
+        "commandsCount": 4
       }
     ]
   },
@@ -44,17 +63,14 @@
     "Timestamps / measures time spent at each page": [
       {
         "url": "/public/index.html",
-        "duration": 467
+        "duration": 454,
+        "commandsCount": 6
       },
       {
         "url": "/public/about.html",
-        "duration": 113
+        "duration": 112,
+        "commandsCount": 3
       }
     ]
-  },
-  "cypress/e2e/utils.cy.js": {
-    "Merging objects / merges right to left": [],
-    "updateVisitedUrls / sorts the spec names": [],
-    "updateVisitedUrls / sorts the test titles for each spec": []
   }
 }

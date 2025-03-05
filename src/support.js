@@ -1,5 +1,6 @@
 // @ts-check
 /// <reference types="cypress" />
+/// <reference path="./index.d.ts" />
 
 const { updateVisitedUrls } = require('./utils')
 
@@ -36,6 +37,14 @@ function getVisitedUrlsFilename() {
   return pluginConfig?.urlsFilename
 }
 
+function onCommandEnd() {
+  const commandCounts = Cypress.env('visitedUrlsCommandCounts')
+  if (commandCounts.length) {
+    const theCurrentCount = commandCounts[commandCounts.length - 1]
+    theCurrentCount.count += 1
+  }
+}
+
 beforeEach(() => {
   const collectUrls = shouldCollectUrls()
   if (collectUrls) {
@@ -43,6 +52,7 @@ beforeEach(() => {
     // in favor of visitedUrlsTimeStamps that has urls and durations
     Cypress.env('visitedUrlsSet', new Set())
     Cypress.env('visitedUrlsTimeStamps', [])
+    Cypress.env('visitedUrlsCommandCounts', [])
 
     Cypress.on('url:changed', (url) => {
       // remove the base url
@@ -58,9 +68,17 @@ beforeEach(() => {
             url: filteredUrl,
             timestamp: +Date.now(),
           })
+
+          const counts = Cypress.env('visitedUrlsCommandCounts')
+          counts.push({
+            url: filteredUrl,
+            count: 0,
+          })
         }
       }
     })
+
+    cy.on('command:end', onCommandEnd)
   }
 })
 
@@ -76,6 +94,9 @@ afterEach(function saveVisitedUrls() {
     return
   }
 
+  // stop recording the commands
+  cy.removeListener('command:end', onCommandEnd)
+
   const state = this.currentTest?.state
   if (state !== 'passed') {
     return
@@ -83,6 +104,23 @@ afterEach(function saveVisitedUrls() {
 
   const specName = Cypress.spec.relative
   const testName = Cypress.currentTest.titlePath.join(' / ')
+
+  let pageCommandCounts = {}
+  const commandCounts = Cypress.env('visitedUrlsCommandCounts')
+  // console.table(commandCounts)
+  if (Array.isArray(commandCounts) && commandCounts.length) {
+    // calculate the sum of command counts for each URL
+    commandCounts.forEach((cc) => {
+      const { url, count } = cc
+      const prev = pageCommandCounts[url]
+      if (prev) {
+        prev.count += count
+        pageCommandCounts[url] = prev
+      } else {
+        pageCommandCounts[url] = { url, count }
+      }
+    })
+  }
 
   /** @type {VisitedUrls.VisitedPage[]} */
   let urls
@@ -162,6 +200,14 @@ afterEach(function saveVisitedUrls() {
             filteredTestUrls = urls
           }
         }
+
+        // add command counts to each test page
+        filteredTestUrls.forEach((record) => {
+          const { url } = record
+          const counts = pageCommandCounts[url]
+          record.commandsCount = counts?.count || 0
+        })
+        // console.table(filteredTestUrls)
 
         const { updated, allUrls } = updateVisitedUrls({
           allVisitedUrls: visitedUrls,

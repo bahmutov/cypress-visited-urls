@@ -6,6 +6,13 @@ namespace VisitedUrls {
    */
   interface VisitedPage {
     url: string
+    /**
+     * How long Cypress spend on the page (ms)
+     */
     duration: number
+    /**
+     * The count of Cypress commands executed on that page
+     */
+    commandsCount: number
   }
 }

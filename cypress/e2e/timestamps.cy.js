@@ -24,7 +24,7 @@ after(() => {
         'Timestamps / measures time spent at each page'
       ]
     expect(urls, 'two visited pages').to.have.length(2)
-    expect(urls[0], 'the longest visited page').to.have.keys([
+    expect(urls[0], 'the longest visited page').to.include.keys([
       'url',
       'duration',
     ])
