@@ -168,6 +168,7 @@ afterEach(function saveVisitedUrls() {
           specName,
           testName,
           testUrls: filteredTestUrls,
+          durationChangeThreshold: 500,
         })
 
         if (updated) {

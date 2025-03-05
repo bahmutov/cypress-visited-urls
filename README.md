@@ -82,7 +82,7 @@ The saved JSON file will have information for each spec and test. For each test,
 }
 ```
 
-Specs and test titles are sorted alphabetically.
+Specs and test titles are sorted alphabetically. Durations are only updated if the difference with the previous value is > 500ms.
 
 ### filterUrl
 

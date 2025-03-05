@@ -44,11 +44,11 @@
     "Timestamps / measures time spent at each page": [
       {
         "url": "/public/index.html",
-        "duration": 463
+        "duration": 442
       },
       {
         "url": "/public/about.html",
-        "duration": 117
+        "duration": 115
       }
     ]
   },
