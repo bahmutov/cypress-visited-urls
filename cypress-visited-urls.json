@@ -4,11 +4,11 @@
     "The about page / goes using the link": [
       {
         "url": "/public/index.html",
-        "duration": 136
+        "duration": 190
       },
       {
         "url": "/public/about.html",
-        "duration": 54
+        "duration": 53
       }
     ]
   },
@@ -16,11 +16,11 @@
     "Filter before save / filters URLs for this test before saving": [
       {
         "url": "prefilter-save: /public/index.html",
-        "duration": 130
+        "duration": 176
       },
       {
         "url": "prefilter-save: /public/about.html",
-        "duration": 56
+        "duration": 43
       }
     ]
   },
@@ -28,7 +28,7 @@
     "filtering URLs / filters query parameters": [
       {
         "url": "/public/index.html",
-        "duration": 6
+        "duration": 18
       }
     ]
   },
@@ -36,7 +36,7 @@
     "The home page / goes using the link": [
       {
         "url": "/public/index.html",
-        "duration": 8
+        "duration": 33
       }
     ]
   },
@@ -44,11 +44,11 @@
     "Timestamps / measures time spent at each page": [
       {
         "url": "/public/index.html",
-        "duration": 456
+        "duration": 463
       },
       {
         "url": "/public/about.html",
-        "duration": 105
+        "duration": 117
       }
     ]
   },
