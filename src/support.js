@@ -1,4 +1,5 @@
 // @ts-check
+/// <reference types="cypress" />
 
 const { updateVisitedUrls } = require('./utils')
 
@@ -6,7 +7,24 @@ const { updateVisitedUrls } = require('./utils')
 // utilities
 //
 let filterUrl = Cypress._.identity
-let preSaveFilterUrls = Cypress._.identity
+/**
+ * Optional filter for all urls collected in the test.
+ * Receives the list of URLs collect for the test during the current run
+ * plus the list of URLs collected for the same test in the previous runs.
+ * This function is called after the test has finished but before saving
+ * the new list of URLs to the JSON file.
+ * @param {string[]} urlsInThisTest
+ * @param {string[]} previousUrlsInThisTest
+ * @param {string} specName
+ * @param {string} testName
+ * @returns {string[]}
+ */
+let preSaveFilterUrls = (
+  urlsInThisTest,
+  previousUrlsInThisTest,
+  specName,
+  testName,
+) => urlsInThisTest
 
 function shouldCollectUrls() {
   const pluginConfig = Cypress.env('visitedUrls')
