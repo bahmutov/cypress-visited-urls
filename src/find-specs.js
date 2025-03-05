@@ -1,16 +1,12 @@
 // @ts-check
 
-const path = require('path')
 const debug = require('debug')('cypress-visited-urls')
 
 function findSpecsByUrl(options) {
   if (!options) {
     throw new Error('Missing options')
   }
-  const { filename, url } = options
-
-  const urls = require(path.resolve(filename))
-  debug('loaded URLs from file', filename)
+  const { urls, url } = options
 
   const specs = []
   for (const spec of Object.keys(urls)) {

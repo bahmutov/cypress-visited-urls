@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
+// @ts-check
 const arg = require('arg')
+const path = require('path')
 const debug = require('debug')('cypress-visited-urls')
 const core = require('@actions/core')
 const { findSpecsByUrl } = require('../src/find-specs')
@@ -18,8 +20,17 @@ const args = arg({
 })
 debug('parsed arguments', args)
 
+if (!args['--filename']) {
+  throw new Error('Missing --filename argument')
+}
+
+const filename = args['--filename']
+const urls = require(path.resolve(filename))
+debug('loaded URLs from file', filename)
+
 const uniqueSpecs = findSpecsByUrl({
-  filename: args['--filename'],
+  urls,
+  filename,
   url: args['--url'],
 })
 console.log(uniqueSpecs.join(','))
