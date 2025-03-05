@@ -177,6 +177,8 @@ $ npx cypress run --spec $(npx find-specs-by-url -f cypress-visited-urls.json -u
 # runs a single spec in this repo
 ```
 
+Since this plugin keeps track of how long each test spends on every URL, the found specs are sorted by the total duration spent on the page. You can see the details by running the find tool using the `DEBUG` environment variable to `DEBUG=cypress-visited-urls`
+
 ### set GitHub Actions outputs
 
 Add flag `--set-gha-outputs` to save the list of found specs and their number in the outputs `visitedSpecs` and `visitedSpecsN`
@@ -193,6 +195,14 @@ $ npx merge-visited-urls --files 'folder/*.json' --output 'visited-urls.json'
 
 ```
 $ npx merge-visited-urls --files 'visited-urls.json,folder/*.json' --output 'visited-urls.json'
+```
+
+## Debugging
+
+This plugin uses the [debug](https://www.npmjs.com/package/debug) module to output verbose logs. Run Node commands with the environment variable `DEBUG=cypress-visited-urls` set
+
+```
+$ DEBUG=cypress-visited-urls npx find-specs-by-url -f cypress-visited-urls.json -u about.html
 ```
 
 ## Small print
