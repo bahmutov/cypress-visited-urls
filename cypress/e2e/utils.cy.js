@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 // @ts-check
 
+chai.config.truncateThreshold = 1000
 import { updateVisitedUrls } from '../../src/utils'
 
 describe('updateVisitedUrls', () => {
@@ -19,6 +20,7 @@ describe('updateVisitedUrls', () => {
       specName: 'moo',
       testName: 'my new test title',
       testUrls: [],
+      durationChangeThreshold: 0,
     })
 
     expect(updated, 'updated').to.be.true
@@ -43,9 +45,11 @@ describe('updateVisitedUrls', () => {
 
     const { updated, allUrls } = updateVisitedUrls({
       allVisitedUrls,
+      // the spec exists, but the test does not
       specName: 'zoo',
       testName: 'b1',
       testUrls: [],
+      durationChangeThreshold: 0,
     })
 
     expect(updated, 'updated').to.be.true
@@ -63,6 +67,83 @@ describe('updateVisitedUrls', () => {
         'my test title': [],
       },
     })
+  })
+
+  it('updates the test pages if duration is above the threshold', () => {
+    const allVisitedUrls = {
+      zoo: {
+        'my test title': [
+          {
+            url: '/index.html',
+            duration: 50,
+          },
+        ],
+      },
+      foo: {
+        'my other test title': [],
+      },
+    }
+
+    const { updated, allUrls } = updateVisitedUrls({
+      allVisitedUrls,
+      specName: 'zoo',
+      testName: 'my test title',
+      testUrls: [
+        {
+          url: '/index.html',
+          duration: 70,
+        },
+      ],
+      durationChangeThreshold: 10,
+    })
+
+    expect(updated, 'updated').to.be.true
+    expect(allUrls, 'all urls').to.deep.equal({
+      foo: {
+        'my other test title': [],
+      },
+      zoo: {
+        'my test title': [
+          {
+            url: '/index.html',
+            duration: 70,
+          },
+        ],
+      },
+    })
+  })
+
+  it('does nothing if duration is below the threshold', () => {
+    const allVisitedUrls = {
+      zoo: {
+        'my test title': [
+          {
+            url: '/index.html',
+            duration: 50,
+          },
+        ],
+      },
+      foo: {
+        'my other test title': [],
+      },
+    }
+
+    const { updated, allUrls } = updateVisitedUrls({
+      allVisitedUrls,
+      specName: 'zoo',
+      testName: 'my test title',
+      testUrls: [
+        {
+          url: '/index.html',
+          duration: 70,
+        },
+      ],
+      // threshold above any duration difference
+      durationChangeThreshold: 30,
+    })
+
+    expect(updated, 'updated').to.be.false
+    expect(allUrls, 'all urls').to.deep.equal(allVisitedUrls)
   })
 })
 
