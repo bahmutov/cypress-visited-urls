@@ -24,6 +24,20 @@ if (!args['--filename']) {
   throw new Error('Missing --filename argument')
 }
 
+if (!args['--url']) {
+  throw new Error('Missing --url argument')
+}
+
+const url = args['--url']
+if (url.includes(',')) {
+  const message = [
+    'URL should not contain commas',
+    'Finding specs covering multiple URLs is not supported yet',
+    'see https://github.com/bahmutov/cypress-visited-urls/issues/30',
+  ].join('\n')
+  throw new Error(message)
+}
+
 const filename = args['--filename']
 const urls = require(path.resolve(filename))
 debug('loaded URLs from file', filename)
@@ -31,7 +45,7 @@ debug('loaded URLs from file', filename)
 const uniqueSpecs = findSpecsByUrl({
   urls,
   filename,
-  url: args['--url'],
+  url,
 })
 console.log(uniqueSpecs.join(','))
 
