@@ -67,6 +67,8 @@ function updateVisitedUrls({
     specTests[testName] = testUrls
   }
 
+  // TODO: update the information if the commands counts change > N
+
   // sort the test titles
   allVisitedUrls[specName] = sortKeys(specTests)
 

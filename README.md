@@ -89,7 +89,7 @@ e2e: {
 
 ## Features
 
-The saved JSON file will have information for each spec and test. For each test, it saves a list of visited pages sorted by the total time spent on the page. See [cypress-visited-urls.json](./cypress-visited-urls.json) for example.
+The saved JSON file will have information for each spec and test. For each test, it saves a list of visited pages sorted by the total time spent on the page. Each test also counts how many Cypress commands were executed at that page. See [cypress-visited-urls.json](./cypress-visited-urls.json) for example.
 
 ```json
 {
@@ -98,11 +98,13 @@ The saved JSON file will have information for each spec and test. For each test,
     "The about page / goes using the link": [
       {
         "url": "/public/index.html",
-        "duration": 136
+        "duration": 136,
+        "commandsCount": 6
       },
       {
         "url": "/public/about.html",
-        "duration": 54
+        "duration": 54,
+        "commandsCount": 2
       }
     ]
   }
