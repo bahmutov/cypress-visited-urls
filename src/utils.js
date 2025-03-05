@@ -33,31 +33,35 @@ function updateVisitedUrls({
   // where the key is the test title (with "/" separators)
   // and the value is the list of urls visited during this test
   const specTests = allVisitedUrls[specName] || {}
-  const prevPagesForThisTest = specTests[testName] || []
-  const prevPageUrlsForThisTest = Cypress._.map(
-    prevPagesForThisTest,
-    'url',
-  )
-  const currPageUrlsForThisTest = Cypress._.map(testUrls, 'url')
-  if (
-    Cypress._.isEqual(
-      prevPageUrlsForThisTest,
-      currPageUrlsForThisTest,
+  if (testName in specTests) {
+    const prevPagesForThisTest = specTests[testName]
+    const prevPageUrlsForThisTest = Cypress._.map(
+      prevPagesForThisTest,
+      'url',
     )
-  ) {
-    // look at the durations within the threshold
-    const prevDurations = prevPagesForThisTest.map(
-      (p) => p.duration || 0,
-    )
-    const currDurations = testUrls.map((p) => p.duration || 0)
-    const hasDurationDifference = currDurations.some(
-      (curr, i) =>
-        Math.abs(curr - prevDurations[i]) > durationChangeThreshold,
-    )
-    if (hasDurationDifference) {
-      specTests[testName] = testUrls
+    const currPageUrlsForThisTest = Cypress._.map(testUrls, 'url')
+    if (
+      Cypress._.isEqual(
+        prevPageUrlsForThisTest,
+        currPageUrlsForThisTest,
+      )
+    ) {
+      // look at the durations within the threshold
+      const prevDurations = prevPagesForThisTest.map(
+        (p) => p.duration || 0,
+      )
+      const currDurations = testUrls.map((p) => p.duration || 0)
+      const hasDurationDifference = currDurations.some(
+        (curr, i) =>
+          Math.abs(curr - prevDurations[i]) > durationChangeThreshold,
+      )
+      if (hasDurationDifference) {
+        specTests[testName] = testUrls
+      } else {
+        // console.log('no duration differences')
+      }
     } else {
-      console.log('no duration differences')
+      specTests[testName] = testUrls
     }
   } else {
     specTests[testName] = testUrls
