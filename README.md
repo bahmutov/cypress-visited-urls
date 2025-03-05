@@ -62,6 +62,28 @@ export default defineConfig({
 
 ## Features
 
+The saved JSON file will have information for each spec and test. For each test, it saves a list of visited pages sorted by the total time spent on the page. See [cypress-visited-urls.json](./cypress-visited-urls.json) for example.
+
+```json
+{
+  "cypress/e2e/about.cy.js": {
+    "The about page / does something else": [],
+    "The about page / goes using the link": [
+      {
+        "url": "/public/index.html",
+        "duration": 136
+      },
+      {
+        "url": "/public/about.html",
+        "duration": 54
+      }
+    ]
+  }
+}
+```
+
+Specs and test titles are sorted alphabetically.
+
 ### filterUrl
 
 Often the visited URLs have dynamic or random parts to them. To "normalize" the URLs before saving them you can pass your own `filterUrl` function to the plugin via config function.
@@ -84,7 +106,7 @@ The returned URL will be stored in the JSON file. If you return a falsy value, t
 
 ### preSaveFilterUrls
 
-Once the test finishes and the plugin prepares to save the updated visited URLs file, you can prefilter / modify all URLs for the current test.
+Once the test finishes and the plugin prepares to save the updated visited URLs file, you can prefilter / modify all URLs for the current test. You are given a list of urls + durations and should return filtered / modified list.
 
 ```js
 // cypress/support/e2e.js
@@ -95,15 +117,16 @@ import { configureVisitedUrls } from 'cypress-visited-urls'
 configureVisitedUrls({
   // currentUrls and previousUrls are two arrays
   // with the current test run and the previously saved URLs for this test
-  // currentUrls: string[]
-  // previousUrls: string[]
+  // currentUrls: {url: string, duration: number}[]
+  // previousUrls: {url: string, duration: number}[]
   // specName: string relative spec name
   // testName: string full test title
   preSaveFilterUrls(currentUrls, previousUrls, specName, testName) {
     // remove all urls that point at the /?callback_ for example
     // and are not in the previously saved list
     return currentUrls.filter(
-      (s) => s.startsWith('/?callback_') && previousUrls.includes(s),
+      ({ url, duration }) =>
+        url.startsWith('/?callback_') && previousUrls.includes(url),
     )
   },
 })
