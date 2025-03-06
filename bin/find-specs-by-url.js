@@ -10,13 +10,19 @@ const { findSpecsByUrl } = require('../src/find-specs')
 const args = arg({
   '--filename': String,
   '--url': String,
-  // when enabled, this code uses GitHub Actions Core package
-  // to set two named outputs, one for number of changed specs
-  // another for actual list of files
+  '--metric': (value) => {
+    const allowedMetrics = ['duration', 'commands']
+    if (!allowedMetrics.includes(value)) {
+      throw new Error(
+        `Invalid value for --metric: ${value}. Allowed values are: ${allowedMetrics.join(', ')}`,
+      )
+    }
+    return value
+  },
   '--set-gha-outputs': Boolean,
-  // aliases
   '-f': '--filename',
   '-u': '--url',
+  '-m': '--metric',
 })
 debug('parsed arguments', args)
 
