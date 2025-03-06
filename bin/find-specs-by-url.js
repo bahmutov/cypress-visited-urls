@@ -78,6 +78,7 @@ const specsWithMeasurements = findSpecsByUrlAndMeasure({
 const uniqueSpecs = specsWithMeasurements.map((o) => o.spec)
 
 if (args['--table']) {
+  // print the results to the terminal
   console.log(
     '=== Specs testing page "%s" sorted by %s %s===',
     url,
@@ -114,4 +115,46 @@ if (args['--set-gha-outputs']) {
   debug('visitedSpecsN %d', uniqueSpecs.length)
   core.setOutput('visitedSpecsN', uniqueSpecs.length)
   core.setOutput('visitedSpecs', uniqueSpecs.join(','))
+
+  if (args['--table']) {
+    debug('setting GitHub Actions output specs table')
+    // be defensive and don't try to print the table unless we are in GitHub Actions
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      let title = `Specs testing page "${url}" sorted by ${metric}`
+      if (cutoff > 0) {
+        title += ` with cutoff ${cutoff}`
+      }
+      let formatted
+      if (metric === 'duration') {
+        formatted = specsWithMeasurements.map((o) => {
+          const duration = humanizeDuration(o.total, {
+            maxDecimalPoints: 2,
+          })
+          return [o.spec, duration]
+        })
+      } else {
+        formatted = specsWithMeasurements.map((o) => {
+          return [o.spec, String(o.total)]
+        })
+      }
+
+      core.summary
+        .addHeading(title, 2)
+        .addTable([
+          [
+            { data: 'Spec', header: true },
+            {
+              data: metric === 'duration' ? 'Duration' : 'Commands',
+              header: true,
+            },
+          ],
+          ...formatted,
+        ])
+        .addLink(
+          'cypress-visited-urls',
+          'https://github.com/bahmutov/cypress-visited-urls',
+        )
+        .write()
+    }
+  }
 }

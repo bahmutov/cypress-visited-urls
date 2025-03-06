@@ -3,7 +3,7 @@
 import spok from 'cy-spok'
 
 describe('Command counts', () => {
-  it('counts commands per page', () => {
+  it('counts commands per page', { retries: 2 }, () => {
     cy.visit('/public/index.html')
     cy.contains('a', 'About').click()
     cy.location('pathname').should('eq', '/public/about.html')

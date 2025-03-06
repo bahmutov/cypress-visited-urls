@@ -13,6 +13,9 @@ jobs:
       - name: Show specs by URL sorted by duration
         run: npm run demo-find -- --set-gha-outputs
 
+      - name: Show specs as table and set GHA summary
+        run: npm run demo-find -- --set-gha-outputs --table
+
       - name: Show specs by URL sorted by the number of commands
         run: npm run demo-find-commands
 
@@ -23,7 +26,7 @@ jobs:
         run: npm run demo-find-table-commands
 
       - name: Show specs with a cutoff
-        run: npm run demo-find-with-cutoff-table-commands
+        run: npm run demo-find-with-cutoff-table-commands -- --set-gha-outputs --table
 
       - name: Show any changes to the URLs file
         run: |
