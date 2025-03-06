@@ -15,4 +15,19 @@ namespace VisitedUrls {
      */
     commandsCount: number
   }
+
+  interface FindSpecsOptions {
+    urls: Record<string, object>
+    filename: string
+    url: string
+    /**
+     * Default: "commands"
+     */
+    metric: 'duration' | 'commands'
+  }
+
+  interface SpecWithTotal {
+    spec: string
+    total: number
+  }
 }

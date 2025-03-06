@@ -179,7 +179,37 @@ $ npx cypress run --spec $(npx find-specs-by-url -f cypress-visited-urls.json -u
 # runs a single spec in this repo
 ```
 
-Since this plugin keeps track of how long each test spends on every URL, the found specs are sorted by the total duration spent on the page. You can see the details by running the find tool using the `DEBUG` environment variable to `DEBUG=cypress-visited-urls`
+### sort by the number of commands
+
+By default, this plugin keep track of how many Cypress commands executed on each page. The list of found specs that visit a specific page is sorted by the total number of commands executed on that page by all tests in that spec. You can be explicit:
+
+```
+$ npx find-specs-by-url -f cypress-visited-urls.json -u about.html --metric commands
+```
+
+### sort by duration
+
+This plugin keeps track of how long each test spends on every URL, and you can see found specs are sorted by the total duration spent on the page:
+
+```
+$ npx find-specs-by-url -f cypress-visited-urls.json -u about.html --metric duration
+```
+
+**Tip:** I suggest using the commands counts as a better metric for deciding which test covers the page. For example, the following test spends _a long time_ on the page, yet simply executes one command there:
+
+```js
+cy.visit('/about')
+cy.wait(10_000)
+```
+
+The second test spends less _time_ on the About page, but at least it verifies some elements
+
+```js
+cy.visit('/about')
+cy.get('body.loaded')
+cy.contains('h1', 'About')
+cy.title().should('equal', 'About us')
+```
 
 ### set GitHub Actions outputs
 

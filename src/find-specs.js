@@ -1,12 +1,17 @@
+/// <reference path="./index.d.ts" />
 // @ts-check
 
 const debug = require('debug')('cypress-visited-urls')
 
-function findSpecsByUrl(options) {
+/**
+ * @param {VisitedUrls.FindSpecsOptions} options
+ * @returns {VisitedUrls.SpecWithTotal[]}
+ */
+function findSpecsByUrlAndMeasure(options) {
   if (!options) {
     throw new Error('Missing options')
   }
-  const { urls, url } = options
+  const { urls, url, metric } = options
 
   const specs = []
   for (const spec of Object.keys(urls)) {
@@ -16,11 +21,15 @@ function findSpecsByUrl(options) {
       for (const pageInformation of testUrls) {
         const testUrl = pageInformation.url
         if (testUrl.includes(url)) {
+          const measure =
+            (metric === 'duration'
+              ? pageInformation.duration
+              : pageInformation.commandsCount) || 0
           const record = {
             spec,
             test,
             url: testUrl,
-            duration: pageInformation.duration || 0,
+            measure,
           }
           specs.push(record)
         }
@@ -33,32 +42,41 @@ function findSpecsByUrl(options) {
   // compute the total for the given page per spec
   const totals = {}
   specs.forEach((spec) => {
-    const { spec: specName, duration } = spec
+    const { spec: specName, measure } = spec
     if (totals[specName]) {
-      totals[specName] += duration
+      totals[specName] += measure
     } else {
-      totals[specName] = duration
+      totals[specName] = measure
     }
   })
-  debug(totals)
+  // debug(totals)
   // console.table(totals)
 
-  // transform the list of spec / durations into an array
-  const specsWithTotalDuration = Object.keys(totals)
+  // transform the list of spec / measurements into an array
+  const specsWithMeasurements = Object.keys(totals)
     .map((spec) => ({
       spec,
-      totalDuration: totals[spec],
+      total: totals[spec],
     }))
-    .sort((a, b) => b.totalDuration - a.totalDuration)
-  debug(specsWithTotalDuration)
+    .sort((a, b) => b.total - a.total)
+  debug(specsWithMeasurements)
+
+  return specsWithMeasurements
+}
+
+/**
+ * @param {VisitedUrls.FindSpecsOptions} options
+ * @returns {string[]}
+ */
+function findSpecsByUrl(options) {
+  const specsWithMeasurements = findSpecsByUrlAndMeasure(options)
   // console.table(specsWithTotalDuration)
 
   // print just the spec names
-  // const uniqueSpecs = [...new Set(specs.map((o) => o.spec))]
-  const uniqueSpecs = specsWithTotalDuration.map((o) => o.spec)
+  const uniqueSpecs = specsWithMeasurements.map((o) => o.spec)
   debug(uniqueSpecs)
 
   return uniqueSpecs
 }
 
-module.exports = { findSpecsByUrl }
+module.exports = { findSpecsByUrlAndMeasure, findSpecsByUrl }
