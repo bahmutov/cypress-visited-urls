@@ -24,6 +24,11 @@ namespace VisitedUrls {
      * Default: "commands"
      */
     metric: 'duration' | 'commands'
+    /**
+     * When using a metric, this is the smallest value to consider.
+     * All specs under the cutoff are filtered out.
+     */
+    cutoff?: number
   }
 
   interface SpecWithTotal {

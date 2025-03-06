@@ -18,6 +18,7 @@
     "demo-find-commands": "DEBUG=cypress-visited-urls node ./bin/find-specs-by-url.js -f cypress-visited-urls.json -u index.html -m commands",
     "demo-find-table": "node ./bin/find-specs-by-url.js -f cypress-visited-urls.json -u about.html -m duration --table",
     "demo-find-table-commands": "node ./bin/find-specs-by-url.js -f cypress-visited-urls.json -u about.html --table",
+    "demo-find-with-cutoff-table-commands": "node ./bin/find-specs-by-url.js -f cypress-visited-urls.json -u about.html --table --cutoff 3",
     "demo-merge": "DEBUG=cypress-visited-urls node ./bin/merge-visited-urls.js --files 'merged-urls.json,example-files/urls-*.json' --output merged-urls.json"
   },
   "repository": {

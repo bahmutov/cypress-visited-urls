@@ -30,6 +30,8 @@ const args = arg({
   '--set-gha-outputs': Boolean,
   // print the found specs with the metric as a table
   '--table': Boolean,
+  // filter out specs with the metric below this value
+  '--cutoff': Number,
   '-f': '--filename',
   '-u': '--url',
   '-m': '--metric',
@@ -61,32 +63,45 @@ debug('loaded URLs from file', filename)
 
 const metric = checkMetric(args['--metric'] || 'commands')
 
+const cutoff = Number(args['--cutoff'])
+if (cutoff < 1) {
+  throw new Error('--cutoff should be a positive number')
+}
+
 const specsWithMeasurements = findSpecsByUrlAndMeasure({
   urls,
   filename,
   url,
   metric,
+  cutoff,
 })
 const uniqueSpecs = specsWithMeasurements.map((o) => o.spec)
 
 if (args['--table']) {
   console.log(
-    '=== Specs testing page "%s" sorted by %s ===',
+    '=== Specs testing page "%s" sorted by %s %s===',
     url,
     metric,
+    cutoff > 0 ? `with cutoff ${cutoff} ` : '',
   )
   if (metric === 'duration') {
     const formatted = specsWithMeasurements.map((o) => {
       return {
         spec: o.spec,
-        total: humanizeDuration(o.total, {
+        duration: humanizeDuration(o.total, {
           maxDecimalPoints: 2,
         }),
       }
     })
     console.table(formatted)
   } else {
-    console.table(specsWithMeasurements)
+    const formatted = specsWithMeasurements.map((o) => {
+      return {
+        spec: o.spec,
+        commands: o.total,
+      }
+    })
+    console.table(formatted)
   }
 } else {
   console.log(uniqueSpecs.join(','))
