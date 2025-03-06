@@ -139,4 +139,44 @@ describe('findSpecsByUrl', () => {
       'spec 1',
     ])
   })
+
+  it('filters specs by commands cutoff', () => {
+    const urls = {
+      'spec 1': {
+        'test 1': [{ url: '/index.html', commandsCount: 1 }],
+        'test 2': [
+          { url: '/about.html', duration: 100, commandsCount: 2 },
+        ],
+      },
+      'spec 2': {
+        'test 3': [
+          { url: '/about.html', commandsCount: 1, duration: 5_000 },
+        ],
+        'test 4': [{ url: '/index.html', commandsCount: 10 }],
+        'test 5': [
+          { url: '/about.html', commandsCount: 3, duration: 700 },
+        ],
+      },
+      'spec 3': {
+        'test 3': [
+          { url: '/about.html', commandsCount: 1, duration: 5_000 },
+        ],
+        'test 4': [{ url: '/index.html', commandsCount: 10 }],
+        'test 5': [
+          { url: '/about.html', commandsCount: 20, duration: 700 },
+        ],
+      },
+    }
+
+    const specsWithTotals = findSpecsByUrlAndMeasure({
+      urls,
+      url: '/about',
+      metric: 'commands',
+      cutoff: 4,
+    })
+    expect(specsWithTotals, 'sorted specs').to.deep.equal([
+      { spec: 'spec 3', total: 21 },
+      { spec: 'spec 2', total: 4 },
+    ])
+  })
 })

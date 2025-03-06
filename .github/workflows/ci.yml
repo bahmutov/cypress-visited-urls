@@ -22,6 +22,9 @@ jobs:
       - name: Show specs as a table (commands)
         run: npm run demo-find-table-commands
 
+      - name: Show specs with a cutoff
+        run: npm run demo-find-with-cutoff-table-commands
+
       - name: Show any changes to the URLs file
         run: |
           git status

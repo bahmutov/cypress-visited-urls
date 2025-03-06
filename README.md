@@ -211,6 +211,17 @@ cy.contains('h1', 'About')
 cy.title().should('equal', 'About us')
 ```
 
+### cutoff
+
+You can filter out all specs where the metric is below a cutoff threshold. For example, to only consider the specs that spend 100ms or longer at the `/about` page
+
+```shell
+# duration cutoff, ms
+$ npx find-specs-by-url -f cypress-visited-urls.json -u '/about' --metric duration --cutoff 100
+# commands cutoff, at least 10 commands on the page
+$ npx find-specs-by-url -f cypress-visited-urls.json -u '/about' --cutoff 10
+```
+
 ### set GitHub Actions outputs
 
 Add flag `--set-gha-outputs` to save the list of found specs and their number in the outputs `visitedSpecs` and `visitedSpecsN`
@@ -223,14 +234,14 @@ You can add `--table` CLI argument to print the found specs together with the to
 $ npx find-specs-by-url -f cypress-visited-urls.json -u about.html --table
 
 === Specs testing page "about.html" sorted by commands ===
-┌─────────┬────────────────────────────────────────┬───────┐
-│ (index) │ spec                                   │ total │
-├─────────┼────────────────────────────────────────┼───────┤
-│ 0       │ 'cypress/e2e/timestamps.cy.js'         │ 3     │
-│ 1       │ 'cypress/e2e/about.cy.js'              │ 2     │
-│ 2       │ 'cypress/e2e/command-counts.cy.js'     │ 2     │
-│ 3       │ 'cypress/e2e/filter-before-save.cy.js' │ 0     │
-└─────────┴────────────────────────────────────────┴───────┘
+┌─────────┬────────────────────────────────────────┬──────────┐
+│ (index) │ spec                                   │ commands │
+├─────────┼────────────────────────────────────────┼──────────┤
+│ 0       │ 'cypress/e2e/timestamps.cy.js'         │ 3        │
+│ 1       │ 'cypress/e2e/about.cy.js'              │ 2        │
+│ 2       │ 'cypress/e2e/command-counts.cy.js'     │ 2        │
+│ 3       │ 'cypress/e2e/filter-before-save.cy.js' │ 0        │
+└─────────┴────────────────────────────────────────┴──────────┘
 ```
 
 ## Merge visited URLs JSON files

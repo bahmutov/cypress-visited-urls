@@ -12,6 +12,7 @@ function findSpecsByUrlAndMeasure(options) {
     throw new Error('Missing options')
   }
   const { urls, url, metric } = options
+  const cutoff = options.cutoff || 0
 
   const specs = []
   for (const spec of Object.keys(urls)) {
@@ -25,6 +26,7 @@ function findSpecsByUrlAndMeasure(options) {
             (metric === 'duration'
               ? pageInformation.duration
               : pageInformation.commandsCount) || 0
+
           const record = {
             spec,
             test,
@@ -58,7 +60,10 @@ function findSpecsByUrlAndMeasure(options) {
       spec,
       total: totals[spec],
     }))
+    // sort all specs by the measured value
     .sort((a, b) => b.total - a.total)
+    // filter out specs that have total less than cutoff
+    .filter((o) => o.total >= cutoff)
   debug(specsWithMeasurements)
 
   return specsWithMeasurements
