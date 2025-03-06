@@ -215,6 +215,24 @@ cy.title().should('equal', 'About us')
 
 Add flag `--set-gha-outputs` to save the list of found specs and their number in the outputs `visitedSpecs` and `visitedSpecsN`
 
+### output CLI table
+
+You can add `--table` CLI argument to print the found specs together with the totals. For example, to see found specs sorted by commands:
+
+```
+$ npx find-specs-by-url -f cypress-visited-urls.json -u about.html --table
+
+=== Specs testing page "about.html" sorted by commands ===
+┌─────────┬────────────────────────────────────────┬───────┐
+│ (index) │ spec                                   │ total │
+├─────────┼────────────────────────────────────────┼───────┤
+│ 0       │ 'cypress/e2e/timestamps.cy.js'         │ 3     │
+│ 1       │ 'cypress/e2e/about.cy.js'              │ 2     │
+│ 2       │ 'cypress/e2e/command-counts.cy.js'     │ 2     │
+│ 3       │ 'cypress/e2e/filter-before-save.cy.js' │ 0     │
+└─────────┴────────────────────────────────────────┴───────┘
+```
+
 ## Merge visited URLs JSON files
 
 If you have multiple JSON files with visited URLs, you can merge them into a single JSON file

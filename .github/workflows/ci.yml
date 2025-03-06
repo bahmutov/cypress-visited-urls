@@ -16,11 +16,19 @@ jobs:
       - name: Show specs by URL sorted by the number of commands
         run: npm run demo-find-commands
 
-      - name: Show merging of URLs files
-        run: npm run demo-merge
+      - name: Show specs as a table (duration)
+        run: npm run demo-find-table
+
+      - name: Show specs as a table (commands)
+        run: npm run demo-find-table-commands
 
       - name: Show any changes to the URLs file
-        run: git show
+        run: |
+          git status
+          git diff cypress-visited-urls.json
+
+      - name: Show merging of URLs files
+        run: npm run demo-merge
 
   release:
     needs: [test]
