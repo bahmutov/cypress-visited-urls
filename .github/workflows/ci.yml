@@ -26,7 +26,7 @@ jobs:
         run: npm run demo-merge
 
       - name: Show any changes to the URLs file
-        run: git show
+        run: git diff cypress-visited-urls.json
 
   release:
     needs: [test]
