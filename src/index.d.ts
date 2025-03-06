@@ -25,4 +25,9 @@ namespace VisitedUrls {
      */
     metric: 'duration' | 'commands'
   }
+
+  interface SpecWithTotal {
+    spec: string
+    total: number
+  }
 }

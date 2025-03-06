@@ -1,12 +1,13 @@
+/// <reference path="./index.d.ts" />
 // @ts-check
 
 const debug = require('debug')('cypress-visited-urls')
 
 /**
  * @param {VisitedUrls.FindSpecsOptions} options
- * @returns {string[]}
+ * @returns {VisitedUrls.SpecWithTotal[]}
  */
-function findSpecsByUrl(options) {
+function findSpecsByUrlAndMeasure(options) {
   if (!options) {
     throw new Error('Missing options')
   }
@@ -59,6 +60,16 @@ function findSpecsByUrl(options) {
     }))
     .sort((a, b) => b.total - a.total)
   debug(specsWithMeasurements)
+
+  return specsWithMeasurements
+}
+
+/**
+ * @param {VisitedUrls.FindSpecsOptions} options
+ * @returns {string[]}
+ */
+function findSpecsByUrl(options) {
+  const specsWithMeasurements = findSpecsByUrlAndMeasure(options)
   // console.table(specsWithTotalDuration)
 
   // print just the spec names
@@ -68,4 +79,4 @@ function findSpecsByUrl(options) {
   return uniqueSpecs
 }
 
-module.exports = { findSpecsByUrl }
+module.exports = { findSpecsByUrlAndMeasure, findSpecsByUrl }
