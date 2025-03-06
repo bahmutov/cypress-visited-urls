@@ -5,7 +5,8 @@ const arg = require('arg')
 const path = require('path')
 const debug = require('debug')('cypress-visited-urls')
 const core = require('@actions/core')
-const { findSpecsByUrl } = require('../src/find-specs')
+const humanizeDuration = require('humanize-duration')
+const { findSpecsByUrlAndMeasure } = require('../src/find-specs')
 
 /**
  * @param {string} value
@@ -27,9 +28,12 @@ const args = arg({
   '--url': String,
   '--metric': checkMetric,
   '--set-gha-outputs': Boolean,
+  // print the found specs with the metric as a table
+  '--table': Boolean,
   '-f': '--filename',
   '-u': '--url',
   '-m': '--metric',
+  '-t': '--table',
 })
 debug('parsed arguments', args)
 
@@ -57,13 +61,36 @@ debug('loaded URLs from file', filename)
 
 const metric = checkMetric(args['--metric'] || 'commands')
 
-const uniqueSpecs = findSpecsByUrl({
+const specsWithMeasurements = findSpecsByUrlAndMeasure({
   urls,
   filename,
   url,
   metric,
 })
-console.log(uniqueSpecs.join(','))
+const uniqueSpecs = specsWithMeasurements.map((o) => o.spec)
+
+if (args['--table']) {
+  console.log(
+    '=== Specs testing page "%s" sorted by %s ===',
+    url,
+    metric,
+  )
+  if (metric === 'duration') {
+    const formatted = specsWithMeasurements.map((o) => {
+      return {
+        spec: o.spec,
+        total: humanizeDuration(o.total, {
+          maxDecimalPoints: 2,
+        }),
+      }
+    })
+    console.table(formatted)
+  } else {
+    console.table(specsWithMeasurements)
+  }
+} else {
+  console.log(uniqueSpecs.join(','))
+}
 
 if (args['--set-gha-outputs']) {
   debug(
