@@ -139,7 +139,7 @@ if (args['--set-gha-outputs']) {
       }
 
       core.summary
-        .addHeading(title)
+        .addHeading(title, 2)
         .addTable([
           [
             { data: 'Spec', header: true },
