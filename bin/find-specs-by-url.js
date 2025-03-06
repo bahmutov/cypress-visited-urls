@@ -7,18 +7,25 @@ const debug = require('debug')('cypress-visited-urls')
 const core = require('@actions/core')
 const { findSpecsByUrl } = require('../src/find-specs')
 
+/**
+ * @param {string} value
+ * @returns {'duration' | 'commands'}
+ */
+function checkMetric(value) {
+  const allowedMetrics = ['duration', 'commands']
+  if (!allowedMetrics.includes(value)) {
+    throw new Error(
+      `Invalid value for --metric: ${value}. Allowed values are: ${allowedMetrics.join(', ')}`,
+    )
+  }
+  // @ts-ignore
+  return value
+}
+
 const args = arg({
   '--filename': String,
   '--url': String,
-  '--metric': (value) => {
-    const allowedMetrics = ['duration', 'commands']
-    if (!allowedMetrics.includes(value)) {
-      throw new Error(
-        `Invalid value for --metric: ${value}. Allowed values are: ${allowedMetrics.join(', ')}`,
-      )
-    }
-    return value
-  },
+  '--metric': checkMetric,
   '--set-gha-outputs': Boolean,
   '-f': '--filename',
   '-u': '--url',
@@ -48,10 +55,13 @@ const filename = args['--filename']
 const urls = require(path.resolve(filename))
 debug('loaded URLs from file', filename)
 
+const metric = checkMetric(args['--metric'] || 'commands')
+
 const uniqueSpecs = findSpecsByUrl({
   urls,
   filename,
   url,
+  metric,
 })
 console.log(uniqueSpecs.join(','))
 

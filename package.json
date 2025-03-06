@@ -14,7 +14,7 @@
   "scripts": {
     "test": "cypress run",
     "semantic-release": "semantic-release",
-    "demo-find": "DEBUG=cypress-visited-urls node ./bin/find-specs-by-url.js -f cypress-visited-urls.json -u index.html",
+    "demo-find": "DEBUG=cypress-visited-urls node ./bin/find-specs-by-url.js -f cypress-visited-urls.json -u index.html -m duration",
     "demo-find-commands": "DEBUG=cypress-visited-urls node ./bin/find-specs-by-url.js -f cypress-visited-urls.json -u index.html -m commands",
     "demo-merge": "DEBUG=cypress-visited-urls node ./bin/merge-visited-urls.js --files 'merged-urls.json,example-files/urls-*.json' --output merged-urls.json"
   },
