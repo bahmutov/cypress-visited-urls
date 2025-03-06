@@ -22,11 +22,13 @@ jobs:
       - name: Show specs as a table (commands)
         run: npm run demo-find-table-commands
 
+      - name: Show any changes to the URLs file
+        run: |
+          git status
+          git diff cypress-visited-urls.json
+
       - name: Show merging of URLs files
         run: npm run demo-merge
-
-      - name: Show any changes to the URLs file
-        run: git diff cypress-visited-urls.json
 
   release:
     needs: [test]
