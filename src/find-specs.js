@@ -11,7 +11,8 @@ function findSpecsByUrlAndMeasure(options) {
   if (!options) {
     throw new Error('Missing options')
   }
-  const { urls, url, metric } = options
+  const { urls, url } = options
+  const metric = options.metric || 'commands'
   const cutoff = options.cutoff || 0
 
   const specs = []
@@ -64,6 +65,9 @@ function findSpecsByUrlAndMeasure(options) {
     .sort((a, b) => b.total - a.total)
     // filter out specs that have total less than cutoff
     .filter((o) => o.total >= cutoff)
+    // keep only the first N specs
+    // Note: if "n" is undefined, keeps all specs
+    .slice(0, options.n)
   debug(specsWithMeasurements)
 
   return specsWithMeasurements

@@ -222,8 +222,17 @@ You can filter out all specs where the metric is below a cutoff threshold. For e
 ```shell
 # duration cutoff, ms
 $ npx find-specs-by-url -f cypress-visited-urls.json -u '/about' --metric duration --cutoff 100
-# commands cutoff, at least 10 commands on the page
+# commands cutoff, at least 10 commands on the About page
 $ npx find-specs-by-url -f cypress-visited-urls.json -u '/about' --cutoff 10
+```
+
+### n
+
+You can keep just the first N specs using the `-n <number>` argument
+
+```shell
+# first 5 specs with at least 10 commands on the About page
+$ npx find-specs-by-url -f cypress-visited-urls.json -u '/about' --cutoff 10 -n 5
 ```
 
 ### set GitHub Actions outputs

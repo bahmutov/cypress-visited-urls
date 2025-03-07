@@ -18,17 +18,23 @@ namespace VisitedUrls {
 
   interface FindSpecsOptions {
     urls: Record<string, object>
-    filename: string
+    /**
+     * URL or part of URL to match
+     */
     url: string
     /**
      * Default: "commands"
      */
-    metric: 'duration' | 'commands'
+    metric?: 'duration' | 'commands'
     /**
      * When using a metric, this is the smallest value to consider.
      * All specs under the cutoff are filtered out.
      */
     cutoff?: number
+    /**
+     * How many top specs to return. Default: all of them
+     */
+    n?: number
   }
 
   interface SpecWithTotal {

@@ -32,6 +32,8 @@ const args = arg({
   '--table': Boolean,
   // filter out specs with the metric below this value
   '--cutoff': Number,
+  // keep the first N specs
+  '-n': Number,
   '-f': '--filename',
   '-u': '--url',
   '-m': '--metric',
@@ -67,23 +69,28 @@ const cutoff = Number(args['--cutoff'])
 if (cutoff < 1) {
   throw new Error('--cutoff should be a positive number')
 }
+const n = args['-n']
+if (n < 0) {
+  throw new Error('-n should be a positive number')
+}
 
 const specsWithMeasurements = findSpecsByUrlAndMeasure({
   urls,
-  filename,
   url,
   metric,
   cutoff,
+  n,
 })
 const uniqueSpecs = specsWithMeasurements.map((o) => o.spec)
 
 if (args['--table']) {
   // print the results to the terminal
   console.log(
-    '=== Specs testing page "%s" sorted by %s %s===',
+    '=== Specs testing page "%s" sorted by %s %s%s===',
     url,
     metric,
     cutoff > 0 ? `with cutoff ${cutoff} ` : '',
+    n ? `first ${n} specs ` : '',
   )
   if (metric === 'duration') {
     const formatted = specsWithMeasurements.map((o) => {
@@ -123,6 +130,9 @@ if (args['--set-gha-outputs']) {
       let title = `Specs testing page "${url}" sorted by ${metric}`
       if (cutoff > 0) {
         title += ` with cutoff ${cutoff}`
+      }
+      if (n) {
+        title += ` first ${n} specs`
       }
       let formatted
       if (metric === 'duration') {
