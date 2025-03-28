@@ -198,7 +198,8 @@ afterEach(function saveVisitedUrls() {
 
         let filteredTestUrls = urls
         // the current test urls for this test
-        const currentTestUrls = visitedUrls[specName]?.[testName]
+        const currentTestUrls =
+          visitedUrls[specName]?.[testName]?.urls
         if (
           Array.isArray(currentTestUrls) &&
           currentTestUrls.length

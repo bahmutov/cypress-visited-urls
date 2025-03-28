@@ -8,12 +8,12 @@
       "urls": [
         {
           "url": "/public/index.html",
-          "duration": 138,
+          "duration": 135,
           "commandsCount": 6
         },
         {
           "url": "/public/about.html",
-          "duration": 54,
+          "duration": 53,
           "commandsCount": 2
         }
       ],
@@ -25,12 +25,12 @@
       "urls": [
         {
           "url": "/public/index.html",
-          "duration": 133,
+          "duration": 135,
           "commandsCount": 6
         },
         {
           "url": "/public/about.html",
-          "duration": 57,
+          "duration": 55,
           "commandsCount": 2
         }
       ],
@@ -41,14 +41,14 @@
     "Filter before save / filters URLs for this test before saving": {
       "urls": [
         {
-          "url": "/public/index.html",
-          "duration": 130,
-          "commandsCount": 4
+          "url": "prefilter-save: /public/index.html",
+          "duration": 135,
+          "commandsCount": 0
         },
         {
-          "url": "/public/about.html",
-          "duration": 56,
-          "commandsCount": 2
+          "url": "prefilter-save: /public/about.html",
+          "duration": 55,
+          "commandsCount": 0
         }
       ],
       "testEvents": []
@@ -59,7 +59,7 @@
       "urls": [
         {
           "url": "/public/index.html",
-          "duration": 6,
+          "duration": 3,
           "commandsCount": 2
         }
       ],
@@ -101,7 +101,7 @@
       "urls": [
         {
           "url": "/public/index.html",
-          "duration": 9,
+          "duration": 6,
           "commandsCount": 4
         }
       ],
@@ -113,12 +113,12 @@
       "urls": [
         {
           "url": "/public/index.html",
-          "duration": 456,
+          "duration": 452,
           "commandsCount": 8
         },
         {
           "url": "/public/about.html",
-          "duration": 104,
+          "duration": 105,
           "commandsCount": 4
         }
       ],
@@ -134,45 +134,6 @@
           "data": "back to homepage"
         }
       ]
-    }
-  },
-  "cypress/e2e/timestamps.cy.js": {
-    "Timestamps / measures time spent at each page": {
-      "urls": [
-        {
-          "url": "/public/index.html",
-          "duration": 445,
-          "commandsCount": 6
-        },
-        {
-          "url": "/public/about.html",
-          "duration": 109,
-          "commandsCount": 3
-        }
-      ],
-      "testEvents": []
-    }
-  },
-  "cypress/e2e/utils.cy.js": {
-    "Merging objects / merges right to left": {
-      "urls": [],
-      "testEvents": []
-    },
-    "updateVisitedUrls / does nothing if duration is below the threshold": {
-      "urls": [],
-      "testEvents": []
-    },
-    "updateVisitedUrls / sorts the spec names": {
-      "urls": [],
-      "testEvents": []
-    },
-    "updateVisitedUrls / sorts the test titles for each spec": {
-      "urls": [],
-      "testEvents": []
-    },
-    "updateVisitedUrls / updates the test pages if duration is above the threshold": {
-      "urls": [],
-      "testEvents": []
     }
   }
 }
