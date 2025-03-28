@@ -135,5 +135,44 @@
         }
       ]
     }
+  },
+  "cypress/e2e/timestamps.cy.js": {
+    "Timestamps / measures time spent at each page": {
+      "urls": [
+        {
+          "url": "/public/index.html",
+          "duration": 453,
+          "commandsCount": 6
+        },
+        {
+          "url": "/public/about.html",
+          "duration": 105,
+          "commandsCount": 3
+        }
+      ],
+      "testEvents": []
+    }
+  },
+  "cypress/e2e/utils.cy.js": {
+    "Merging objects / merges right to left": {
+      "urls": [],
+      "testEvents": []
+    },
+    "updateVisitedUrls / does nothing if duration is below the threshold": {
+      "urls": [],
+      "testEvents": []
+    },
+    "updateVisitedUrls / sorts the spec names": {
+      "urls": [],
+      "testEvents": []
+    },
+    "updateVisitedUrls / sorts the test titles for each spec": {
+      "urls": [],
+      "testEvents": []
+    },
+    "updateVisitedUrls / updates the test pages if duration is above the threshold": {
+      "urls": [],
+      "testEvents": []
+    }
   }
 }
