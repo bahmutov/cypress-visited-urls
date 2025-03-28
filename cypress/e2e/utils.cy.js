@@ -20,6 +20,7 @@ describe('updateVisitedUrls', () => {
       specName: 'moo',
       testName: 'my new test title',
       testUrls: [],
+      testEvents: [],
       durationChangeThreshold: 0,
     })
 
@@ -50,6 +51,7 @@ describe('updateVisitedUrls', () => {
       testName: 'b1',
       testUrls: [],
       durationChangeThreshold: 0,
+      testEvents: [],
     })
 
     expect(updated, 'updated').to.be.true
@@ -63,7 +65,7 @@ describe('updateVisitedUrls', () => {
       },
       zoo: {
         aaa1: [],
-        b1: [],
+        b1: { urls: [], testEvents: [] },
         'my test title': [],
       },
     })
@@ -92,9 +94,11 @@ describe('updateVisitedUrls', () => {
         {
           url: '/index.html',
           duration: 70,
+          commandsCount: 10,
         },
       ],
       durationChangeThreshold: 10,
+      testEvents: [],
     })
 
     expect(updated, 'updated').to.be.true
@@ -103,12 +107,16 @@ describe('updateVisitedUrls', () => {
         'my other test title': [],
       },
       zoo: {
-        'my test title': [
-          {
-            url: '/index.html',
-            duration: 70,
-          },
-        ],
+        'my test title': {
+          urls: [
+            {
+              url: '/index.html',
+              duration: 70,
+              commandsCount: 10,
+            },
+          ],
+          testEvents: [],
+        },
       },
     })
   })
@@ -116,12 +124,16 @@ describe('updateVisitedUrls', () => {
   it('does nothing if duration is below the threshold', () => {
     const allVisitedUrls = {
       zoo: {
-        'my test title': [
-          {
-            url: '/index.html',
-            duration: 50,
-          },
-        ],
+        'my test title': {
+          urls: [
+            {
+              url: '/index.html',
+              duration: 50,
+              commandsCount: 10,
+            },
+          ],
+          testEvents: [],
+        },
       },
       foo: {
         'my other test title': [],
@@ -136,10 +148,12 @@ describe('updateVisitedUrls', () => {
         {
           url: '/index.html',
           duration: 70,
+          commandsCount: 10,
         },
       ],
       // threshold above any duration difference
       durationChangeThreshold: 30,
+      testEvents: [],
     })
 
     expect(updated, 'updated').to.be.false

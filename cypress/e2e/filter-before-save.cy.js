@@ -17,14 +17,15 @@ after(() => {
   // for the above test
   cy.log('after filter-before-save')
   // confirm our preprocessing using the support/e2e worked
-  cy.readFile('cypress-visited-urls.json').then((allUrls) => {
-    const urls = allUrls['cypress/e2e/filter-before-save.cy.js'][
-      'Filter before save / filters URLs for this test before saving'
-    ].map((o) => o.url)
-
-    expect(urls, 'saved urls for this test').to.deep.equal([
+  cy.readFile('cypress-visited-urls.json')
+    .its('cypress/e2e/filter-before-save.cy.js')
+    .its(
+      'Filter before save / filters URLs for this test before saving',
+    )
+    .its('urls')
+    .map('url')
+    .should('deep.equal', [
       'prefilter-save: /public/index.html',
       'prefilter-save: /public/about.html',
     ])
-  })
 })

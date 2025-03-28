@@ -1,3 +1,4 @@
+import 'cypress-map'
 import { configureVisitedUrls } from '../../src/support'
 
 configureVisitedUrls({

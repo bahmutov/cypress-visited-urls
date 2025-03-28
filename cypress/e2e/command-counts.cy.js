@@ -31,6 +31,7 @@ after(() => {
   cy.readFile('cypress-visited-urls.json')
     .its('cypress/e2e/command-counts.cy.js')
     .its('Command counts / counts commands per page')
+    .its('urls')
     .should('be.an', 'array')
     // we visited two pages
     .and('have.length', 2)

@@ -18,27 +18,30 @@ after(() => {
   // for the above test
   cy.log('after the plugin saved visited URLs')
   cy.log('confirm we collected the durations')
-  cy.readFile('cypress-visited-urls.json').then((allUrls) => {
-    const urls =
-      allUrls['cypress/e2e/timestamps.cy.js'][
-        'Timestamps / measures time spent at each page'
-      ]
-    expect(urls, 'two visited pages').to.have.length(2)
-    expect(urls[0], 'the longest visited page').to.include.keys([
-      'url',
-      'duration',
-    ])
-    expect(urls[0].url, 'the longest page URL').to.equal(
-      '/public/index.html',
-    )
-    expect(urls[0].duration, 'total time spent').to.be.within(
-      300,
-      500,
-    )
+  cy.readFile('cypress-visited-urls.json')
+    .its('cypress/e2e/timestamps.cy.js')
+    .its('Timestamps / measures time spent at each page')
+    .its('urls')
+    .then((urls) => {
+      expect(urls, 'two visited pages').to.have.length(2)
+      expect(urls[0], 'the longest visited page').to.include.keys([
+        'url',
+        'duration',
+      ])
+      expect(urls[0].url, 'the longest page URL').to.equal(
+        '/public/index.html',
+      )
+      expect(urls[0].duration, 'total time spent').to.be.within(
+        300,
+        500,
+      )
 
-    expect(urls[1].url, 'the second page URL').to.equal(
-      '/public/about.html',
-    )
-    expect(urls[1].duration, 'total time spent').to.be.within(50, 150)
-  })
+      expect(urls[1].url, 'the second page URL').to.equal(
+        '/public/about.html',
+      )
+      expect(urls[1].duration, 'total time spent').to.be.within(
+        50,
+        150,
+      )
+    })
 })

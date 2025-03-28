@@ -1,76 +1,178 @@
 {
   "cypress/e2e/about.cy.js": {
-    "The about page / goes using the link": [
-      {
-        "url": "/public/index.html",
-        "duration": 149,
-        "commandsCount": 6
-      },
-      {
-        "url": "/public/about.html",
-        "duration": 54,
-        "commandsCount": 2
-      }
-    ]
+    "The about page / does something else": {
+      "urls": [],
+      "testEvents": []
+    },
+    "The about page / goes using the link": {
+      "urls": [
+        {
+          "url": "/public/index.html",
+          "duration": 138,
+          "commandsCount": 6
+        },
+        {
+          "url": "/public/about.html",
+          "duration": 54,
+          "commandsCount": 2
+        }
+      ],
+      "testEvents": []
+    }
   },
   "cypress/e2e/command-counts.cy.js": {
-    "Command counts / counts commands per page": [
-      {
-        "url": "/public/index.html",
-        "duration": 135,
-        "commandsCount": 6
-      },
-      {
-        "url": "/public/about.html",
-        "duration": 59,
-        "commandsCount": 2
-      }
-    ]
+    "Command counts / counts commands per page": {
+      "urls": [
+        {
+          "url": "/public/index.html",
+          "duration": 133,
+          "commandsCount": 6
+        },
+        {
+          "url": "/public/about.html",
+          "duration": 57,
+          "commandsCount": 2
+        }
+      ],
+      "testEvents": []
+    }
   },
   "cypress/e2e/filter-before-save.cy.js": {
-    "Filter before save / filters URLs for this test before saving": [
-      {
-        "url": "prefilter-save: /public/index.html",
-        "duration": 148,
-        "commandsCount": 0
-      },
-      {
-        "url": "prefilter-save: /public/about.html",
-        "duration": 60,
-        "commandsCount": 0
-      }
-    ]
+    "Filter before save / filters URLs for this test before saving": {
+      "urls": [
+        {
+          "url": "/public/index.html",
+          "duration": 130,
+          "commandsCount": 4
+        },
+        {
+          "url": "/public/about.html",
+          "duration": 56,
+          "commandsCount": 2
+        }
+      ],
+      "testEvents": []
+    }
   },
   "cypress/e2e/filter-urls.cy.js": {
-    "filtering URLs / filters query parameters": [
-      {
-        "url": "/public/index.html",
-        "duration": 14,
-        "commandsCount": 2
-      }
-    ]
+    "filtering URLs / filters query parameters": {
+      "urls": [
+        {
+          "url": "/public/index.html",
+          "duration": 6,
+          "commandsCount": 2
+        }
+      ],
+      "testEvents": []
+    }
+  },
+  "cypress/e2e/find-specs.cy.js": {
+    "findSpecsByUrl / filters specs by commands cutoff": {
+      "urls": [],
+      "testEvents": []
+    },
+    "findSpecsByUrl / finds a single specs that visit the given URL": {
+      "urls": [],
+      "testEvents": []
+    },
+    "findSpecsByUrl / finds several specs": {
+      "urls": [],
+      "testEvents": []
+    },
+    "findSpecsByUrl / keeps the top N specs": {
+      "urls": [],
+      "testEvents": []
+    },
+    "findSpecsByUrl / returns the specs sorted by the total counts across all tests": {
+      "urls": [],
+      "testEvents": []
+    },
+    "findSpecsByUrl / returns the specs sorted by the total duration across all tests": {
+      "urls": [],
+      "testEvents": []
+    },
+    "findSpecsByUrl / works with N and cutoff": {
+      "urls": [],
+      "testEvents": []
+    }
   },
   "cypress/e2e/homepage.cy.js": {
-    "The home page / goes using the link": [
-      {
-        "url": "/public/index.html",
-        "duration": 21,
-        "commandsCount": 4
-      }
-    ]
+    "The home page / goes using the link": {
+      "urls": [
+        {
+          "url": "/public/index.html",
+          "duration": 9,
+          "commandsCount": 4
+        }
+      ],
+      "testEvents": []
+    }
+  },
+  "cypress/e2e/test-events.cy.js": {
+    "Recorded test events / adds custom events to the test record set": {
+      "urls": [
+        {
+          "url": "/public/index.html",
+          "duration": 456,
+          "commandsCount": 8
+        },
+        {
+          "url": "/public/about.html",
+          "duration": 104,
+          "commandsCount": 4
+        }
+      ],
+      "testEvents": [
+        {
+          "label": "custom-event",
+          "data": {
+            "message": "hello"
+          }
+        },
+        {
+          "label": "navigation",
+          "data": "back to homepage"
+        }
+      ]
+    }
   },
   "cypress/e2e/timestamps.cy.js": {
-    "Timestamps / measures time spent at each page": [
-      {
-        "url": "/public/index.html",
-        "duration": 454,
-        "commandsCount": 6
-      },
-      {
-        "url": "/public/about.html",
-        "duration": 112,
-        "commandsCount": 3
-      }
-    ]
+    "Timestamps / measures time spent at each page": {
+      "urls": [
+        {
+          "url": "/public/index.html",
+          "duration": 445,
+          "commandsCount": 6
+        },
+        {
+          "url": "/public/about.html",
+          "duration": 109,
+          "commandsCount": 3
+        }
+      ],
+      "testEvents": []
+    }
+  },
+  "cypress/e2e/utils.cy.js": {
+    "Merging objects / merges right to left": {
+      "urls": [],
+      "testEvents": []
+    },
+    "updateVisitedUrls / does nothing if duration is below the threshold": {
+      "urls": [],
+      "testEvents": []
+    },
+    "updateVisitedUrls / sorts the spec names": {
+      "urls": [],
+      "testEvents": []
+    },
+    "updateVisitedUrls / sorts the test titles for each spec": {
+      "urls": [],
+      "testEvents": []
+    },
+    "updateVisitedUrls / updates the test pages if duration is above the threshold": {
+      "urls": [],
+      "testEvents": []
+    }
   }
 }
