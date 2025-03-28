@@ -70,8 +70,10 @@ if (cutoff < 1) {
   throw new Error('--cutoff should be a positive number')
 }
 const n = args['-n']
-if (n < 0) {
-  throw new Error('-n should be a positive number')
+if (typeof n === 'number') {
+  if (n < 0) {
+    throw new Error('-n should be a positive number')
+  }
 }
 
 const specsWithMeasurements = findSpecsByUrlAndMeasure({

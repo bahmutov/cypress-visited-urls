@@ -16,6 +16,11 @@ namespace VisitedUrls {
     commandsCount: number
   }
 
+  interface VisitedTestEvent {
+    label: string
+    data: Record<string, any>
+  }
+
   interface FindSpecsOptions {
     urls: Record<string, object>
     /**

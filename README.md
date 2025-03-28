@@ -165,6 +165,36 @@ configureVisitedUrls({
 })
 ```
 
+### test events
+
+You can send custom events to be stored with the test information using the static method call
+
+```js
+Cypress.addVisitedTestEvent({
+  label: 'string event name',
+  data: {}, // any serializable object
+})
+```
+
+**Note:** duplicate events will be skipped
+
+```js
+Cypress.addVisitedTestEvent({
+  label: 'user info',
+  data: {
+    name: 'Joe',
+  },
+})
+// some time later
+Cypress.addVisitedTestEvent({
+  label: 'user info',
+  data: {
+    name: 'Joe',
+  },
+})
+// only a single event "user info" with the { name: 'Joe' } is stored
+```
+
 ## Find specs
 
 You can find all specs with tests that visit a particular URL using partial string match

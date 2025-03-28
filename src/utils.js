@@ -9,6 +9,7 @@ const { sortKeys } = require('./universal-utils')
  * @property {string} testName
  * @property {VisitedUrls.VisitedPage[]} testUrls
  * @property {number} durationChangeThreshold Duration should change by at least this much to be considered different
+ * @property {VisitedUrls.VisitedTestEvent[]} testEvents
  */
 /**
  * Combines the existing record with all urls visited by all specs
@@ -23,6 +24,7 @@ function updateVisitedUrls({
   testName,
   testUrls,
   durationChangeThreshold,
+  testEvents,
 }) {
   const copy = Cypress._.cloneDeep(allVisitedUrls)
 
@@ -34,37 +36,49 @@ function updateVisitedUrls({
   // and the value is the list of urls visited during this test
   const specTests = allVisitedUrls[specName] || {}
   if (testName in specTests) {
-    const prevPagesForThisTest = specTests[testName]
-    const prevPageUrlsForThisTest = Cypress._.map(
-      prevPagesForThisTest,
-      'url',
+    const prevTestData = specTests[testName]
+
+    const eventsAreSame = Cypress._.isEqual(
+      prevTestData.testEvents,
+      testEvents,
     )
-    const currPageUrlsForThisTest = Cypress._.map(testUrls, 'url')
-    if (
-      Cypress._.isEqual(
-        prevPageUrlsForThisTest,
-        currPageUrlsForThisTest,
-      )
-    ) {
-      // look at the durations within the threshold
-      const prevDurations = prevPagesForThisTest.map(
-        (p) => p.duration || 0,
-      )
-      const currDurations = testUrls.map((p) => p.duration || 0)
-      const hasDurationDifference = currDurations.some(
-        (curr, i) =>
-          Math.abs(curr - prevDurations[i]) > durationChangeThreshold,
-      )
-      if (hasDurationDifference) {
-        specTests[testName] = testUrls
-      } else {
-        // console.log('no duration differences')
-      }
+    if (!eventsAreSame) {
+      specTests[testName] = { urls: testUrls, testEvents }
     } else {
-      specTests[testName] = testUrls
+      // look at the URLs and durations
+      const prevPagesForThisTest = prevTestData.urls || []
+      const prevPageUrlsForThisTest = Cypress._.map(
+        prevPagesForThisTest,
+        'url',
+      )
+      const currPageUrlsForThisTest = Cypress._.map(testUrls, 'url')
+      if (
+        Cypress._.isEqual(
+          prevPageUrlsForThisTest,
+          currPageUrlsForThisTest,
+        )
+      ) {
+        // look at the durations within the threshold
+        const prevDurations = prevPagesForThisTest.map(
+          (p) => p.duration || 0,
+        )
+        const currDurations = testUrls.map((p) => p.duration || 0)
+        const hasDurationDifference = currDurations.some(
+          (curr, i) =>
+            Math.abs(curr - prevDurations[i]) >
+            durationChangeThreshold,
+        )
+        if (hasDurationDifference) {
+          specTests[testName] = { urls: testUrls, testEvents }
+        } else {
+          // console.log('no duration differences')
+        }
+      } else {
+        specTests[testName] = { urls: testUrls, testEvents }
+      }
     }
   } else {
-    specTests[testName] = testUrls
+    specTests[testName] = { urls: testUrls, testEvents }
   }
 
   // TODO: update the information if the commands counts change > N

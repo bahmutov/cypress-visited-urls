@@ -1,3 +1,4 @@
+import 'cypress-map'
 import { configureVisitedUrls } from '../../src/support'
 
 configureVisitedUrls({
@@ -21,11 +22,13 @@ configureVisitedUrls({
     }
 
     // a custom logic to filter out URLs after the test has run
+    // console.log({ specName, testName })
     if (
       specName === 'cypress/e2e/filter-before-save.cy.js' &&
       testName ===
         'Filter before save / filters URLs for this test before saving'
     ) {
+      // console.table(visitedUrls)
       return visitedUrls.map(({ url, duration }) => {
         expect(duration, 'duration is a number').to.be.a('number')
         return { url: 'prefilter-save: ' + url, duration }

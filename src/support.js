@@ -53,6 +53,18 @@ beforeEach(() => {
     Cypress.env('visitedUrlsSet', new Set())
     Cypress.env('visitedUrlsTimeStamps', [])
     Cypress.env('visitedUrlsCommandCounts', [])
+    Cypress.env('visitedTestEvents', [])
+    // TODO: add a static method to the Cypress object
+    // @ts-expect-error
+    Cypress.addVisitedTestEvent = ({ label, data }) => {
+      // for now check if the event with the same label and data already exists
+      const savedEvents = Cypress.env('visitedTestEvents')
+      const existing = Cypress._.find(savedEvents, { label, data })
+      if (existing) {
+        return
+      }
+      Cypress.env('visitedTestEvents').push({ label, data })
+    }
 
     Cypress.on('url:changed', (url) => {
       // remove the base url
@@ -123,7 +135,7 @@ afterEach(function saveVisitedUrls() {
   }
 
   /** @type {VisitedUrls.VisitedPage[]} */
-  let urls
+  let urls = []
 
   const timestamps = Cypress.env('visitedUrlsTimeStamps')
   if (Array.isArray(timestamps) && timestamps.length) {
@@ -162,14 +174,17 @@ afterEach(function saveVisitedUrls() {
     urls = Object.values(pageDurations)
     urls.sort((a, b) => b.duration - a.duration)
     // console.table(urls)
-  } else {
-    return
   }
 
-  const pages = urls.map((url) => url.url)
-  const text = `visited ${pages.length} URL(s): ${pages.join(', ')}`
-  cy.log(`This test ${text}`)
-  printTextToTerminal(`${specName} test "${testName}" ${text}`)
+  if (urls && urls.length) {
+    const pages = urls.map((url) => url.url)
+    const text = `visited ${pages.length} URL(s): ${pages.join(', ')}`
+    cy.log(`This test ${text}`)
+    printTextToTerminal(`${specName} test "${testName}" ${text}`)
+  }
+
+  const testEvents = Cypress.env('visitedTestEvents')
+  cy.log(`${testEvents.length} test events`)
 
   const filename = getVisitedUrlsFilename()
   if (filename) {
@@ -183,7 +198,8 @@ afterEach(function saveVisitedUrls() {
 
         let filteredTestUrls = urls
         // the current test urls for this test
-        const currentTestUrls = visitedUrls[specName]?.[testName]
+        const currentTestUrls =
+          visitedUrls[specName]?.[testName]?.urls
         if (
           Array.isArray(currentTestUrls) &&
           currentTestUrls.length
@@ -215,6 +231,7 @@ afterEach(function saveVisitedUrls() {
           testName,
           testUrls: filteredTestUrls,
           durationChangeThreshold: 500,
+          testEvents,
         })
 
         if (updated) {

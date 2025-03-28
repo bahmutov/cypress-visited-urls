@@ -10,12 +10,12 @@ describe('findSpecsByUrl', () => {
   it('finds a single specs that visit the given URL', () => {
     const urls = {
       'spec 1': {
-        'test 1': [{ url: '/foo' }],
-        'test 2': [{ url: '/bar' }],
+        'test 1': { urls: [{ url: '/foo' }] },
+        'test 2': { urls: [{ url: '/bar' }] },
       },
       'spec 2': {
-        'test 3': [{ url: '/about.html' }],
-        'test 4': [{ url: '/index.html' }],
+        'test 3': { urls: [{ url: '/about.html' }] },
+        'test 4': { urls: [{ url: '/index.html' }] },
       },
     }
 
@@ -40,12 +40,12 @@ describe('findSpecsByUrl', () => {
   it('finds several specs', () => {
     const urls = {
       'spec 1': {
-        'test 1': [{ url: '/index.html' }],
-        'test 2': [{ url: '/about.html' }],
+        'test 1': { urls: [{ url: '/index.html' }] },
+        'test 2': { urls: [{ url: '/about.html' }] },
       },
       'spec 2': {
-        'test 3': [{ url: '/about.html' }],
-        'test 4': [{ url: '/index.html' }],
+        'test 3': { urls: [{ url: '/about.html' }] },
+        'test 4': { urls: [{ url: '/index.html' }] },
       },
     }
     const specs = findSpecsByUrl({
@@ -60,13 +60,13 @@ describe('findSpecsByUrl', () => {
   it('returns the specs sorted by the total duration across all tests', () => {
     const urls = {
       'spec 1': {
-        'test 1': [{ url: '/index.html' }],
-        'test 2': [{ url: '/about.html', duration: 100 }],
+        'test 1': { urls: [{ url: '/index.html' }] },
+        'test 2': { urls: [{ url: '/about.html', duration: 100 }] },
       },
       'spec 2': {
-        'test 3': [{ url: '/about.html', duration: 5_000 }],
-        'test 4': [{ url: '/index.html' }],
-        'test 5': [{ url: '/about.html', duration: 700 }],
+        'test 3': { urls: [{ url: '/about.html', duration: 5_000 }] },
+        'test 4': { urls: [{ url: '/index.html' }] },
+        'test 5': { urls: [{ url: '/about.html', duration: 700 }] },
       },
     }
 
@@ -93,28 +93,44 @@ describe('findSpecsByUrl', () => {
   it('returns the specs sorted by the total counts across all tests', () => {
     const urls = {
       'spec 1': {
-        'test 1': [{ url: '/index.html', commandsCount: 1 }],
-        'test 2': [
-          { url: '/about.html', duration: 100, commandsCount: 2 },
-        ],
+        'test 1': {
+          urls: [{ url: '/index.html', commandsCount: 1 }],
+        },
+        'test 2': {
+          urls: [
+            { url: '/about.html', duration: 100, commandsCount: 2 },
+          ],
+        },
       },
       'spec 2': {
-        'test 3': [
-          { url: '/about.html', commandsCount: 1, duration: 5_000 },
-        ],
-        'test 4': [{ url: '/index.html', commandsCount: 10 }],
-        'test 5': [
-          { url: '/about.html', commandsCount: 3, duration: 700 },
-        ],
+        'test 3': {
+          urls: [
+            { url: '/about.html', commandsCount: 1, duration: 5_000 },
+          ],
+        },
+        'test 4': {
+          urls: [{ url: '/index.html', commandsCount: 10 }],
+        },
+        'test 5': {
+          urls: [
+            { url: '/about.html', commandsCount: 3, duration: 700 },
+          ],
+        },
       },
       'spec 3': {
-        'test 3': [
-          { url: '/about.html', commandsCount: 1, duration: 5_000 },
-        ],
-        'test 4': [{ url: '/index.html', commandsCount: 10 }],
-        'test 5': [
-          { url: '/about.html', commandsCount: 20, duration: 700 },
-        ],
+        'test 3': {
+          urls: [
+            { url: '/about.html', commandsCount: 1, duration: 5_000 },
+          ],
+        },
+        'test 4': {
+          urls: [{ url: '/index.html', commandsCount: 10 }],
+        },
+        'test 5': {
+          urls: [
+            { url: '/about.html', commandsCount: 20, duration: 700 },
+          ],
+        },
       },
     }
 
@@ -146,28 +162,44 @@ describe('findSpecsByUrl', () => {
   it('filters specs by commands cutoff', () => {
     const urls = {
       'spec 1': {
-        'test 1': [{ url: '/index.html', commandsCount: 1 }],
-        'test 2': [
-          { url: '/about.html', duration: 100, commandsCount: 2 },
-        ],
+        'test 1': {
+          urls: [{ url: '/index.html', commandsCount: 1 }],
+        },
+        'test 2': {
+          urls: [
+            { url: '/about.html', duration: 100, commandsCount: 2 },
+          ],
+        },
       },
       'spec 2': {
-        'test 3': [
-          { url: '/about.html', commandsCount: 1, duration: 5_000 },
-        ],
-        'test 4': [{ url: '/index.html', commandsCount: 10 }],
-        'test 5': [
-          { url: '/about.html', commandsCount: 3, duration: 700 },
-        ],
+        'test 3': {
+          urls: [
+            { url: '/about.html', commandsCount: 1, duration: 5_000 },
+          ],
+        },
+        'test 4': {
+          urls: [{ url: '/index.html', commandsCount: 10 }],
+        },
+        'test 5': {
+          urls: [
+            { url: '/about.html', commandsCount: 3, duration: 700 },
+          ],
+        },
       },
       'spec 3': {
-        'test 3': [
-          { url: '/about.html', commandsCount: 1, duration: 5_000 },
-        ],
-        'test 4': [{ url: '/index.html', commandsCount: 10 }],
-        'test 5': [
-          { url: '/about.html', commandsCount: 20, duration: 700 },
-        ],
+        'test 3': {
+          urls: [
+            { url: '/about.html', commandsCount: 1, duration: 5_000 },
+          ],
+        },
+        'test 4': {
+          urls: [{ url: '/index.html', commandsCount: 10 }],
+        },
+        'test 5': {
+          urls: [
+            { url: '/about.html', commandsCount: 20, duration: 700 },
+          ],
+        },
       },
     }
 
@@ -186,28 +218,44 @@ describe('findSpecsByUrl', () => {
   it('keeps the top N specs', () => {
     const urls = {
       'spec 1': {
-        'test 1': [{ url: '/index.html', commandsCount: 1 }],
-        'test 2': [
-          { url: '/about.html', duration: 100, commandsCount: 2 },
-        ],
+        'test 1': {
+          urls: [{ url: '/index.html', commandsCount: 1 }],
+        },
+        'test 2': {
+          urls: [
+            { url: '/about.html', duration: 100, commandsCount: 2 },
+          ],
+        },
       },
       'spec 2': {
-        'test 3': [
-          { url: '/about.html', commandsCount: 1, duration: 5_000 },
-        ],
-        'test 4': [{ url: '/index.html', commandsCount: 10 }],
-        'test 5': [
-          { url: '/about.html', commandsCount: 3, duration: 700 },
-        ],
+        'test 3': {
+          urls: [
+            { url: '/about.html', commandsCount: 1, duration: 5_000 },
+          ],
+        },
+        'test 4': {
+          urls: [{ url: '/index.html', commandsCount: 10 }],
+        },
+        'test 5': {
+          urls: [
+            { url: '/about.html', commandsCount: 3, duration: 700 },
+          ],
+        },
       },
       'spec 3': {
-        'test 3': [
-          { url: '/about.html', commandsCount: 1, duration: 5_000 },
-        ],
-        'test 4': [{ url: '/index.html', commandsCount: 10 }],
-        'test 5': [
-          { url: '/about.html', commandsCount: 20, duration: 700 },
-        ],
+        'test 3': {
+          urls: [
+            { url: '/about.html', commandsCount: 1, duration: 5_000 },
+          ],
+        },
+        'test 4': {
+          urls: [{ url: '/index.html', commandsCount: 10 }],
+        },
+        'test 5': {
+          urls: [
+            { url: '/about.html', commandsCount: 20, duration: 700 },
+          ],
+        },
       },
     }
 
@@ -225,28 +273,44 @@ describe('findSpecsByUrl', () => {
   it('works with N and cutoff', () => {
     const urls = {
       'spec 1': {
-        'test 1': [{ url: '/index.html', commandsCount: 1 }],
-        'test 2': [
-          { url: '/about.html', duration: 100, commandsCount: 2 },
-        ],
+        'test 1': {
+          urls: [{ url: '/index.html', commandsCount: 1 }],
+        },
+        'test 2': {
+          urls: [
+            { url: '/about.html', duration: 100, commandsCount: 2 },
+          ],
+        },
       },
       'spec 2': {
-        'test 3': [
-          { url: '/about.html', commandsCount: 1, duration: 5_000 },
-        ],
-        'test 4': [{ url: '/index.html', commandsCount: 10 }],
-        'test 5': [
-          { url: '/about.html', commandsCount: 3, duration: 700 },
-        ],
+        'test 3': {
+          urls: [
+            { url: '/about.html', commandsCount: 1, duration: 5_000 },
+          ],
+        },
+        'test 4': {
+          urls: [{ url: '/index.html', commandsCount: 10 }],
+        },
+        'test 5': {
+          urls: [
+            { url: '/about.html', commandsCount: 3, duration: 700 },
+          ],
+        },
       },
       'spec 3': {
-        'test 3': [
-          { url: '/about.html', commandsCount: 1, duration: 5_000 },
-        ],
-        'test 4': [{ url: '/index.html', commandsCount: 10 }],
-        'test 5': [
-          { url: '/about.html', commandsCount: 20, duration: 700 },
-        ],
+        'test 3': {
+          urls: [
+            { url: '/about.html', commandsCount: 1, duration: 5_000 },
+          ],
+        },
+        'test 4': {
+          urls: [{ url: '/index.html', commandsCount: 10 }],
+        },
+        'test 5': {
+          urls: [
+            { url: '/about.html', commandsCount: 20, duration: 700 },
+          ],
+        },
       },
     }
 
