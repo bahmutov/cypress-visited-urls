@@ -172,11 +172,11 @@ You can send custom events to be stored with the test information using the stat
 ```js
 Cypress.addVisitedTestEvent({
   label: 'string event name',
-  data: {}, // any serializable object
+  data: {}, // any serializable object or a string or a number
 })
 ```
 
-**Note:** duplicate events will be skipped
+**Note:** duplicate events will be skipped, but the count will be incremented
 
 ```js
 Cypress.addVisitedTestEvent({
