@@ -64,10 +64,12 @@ after(() => {
           data: {
             message: 'hello',
           },
+          count: 2,
         },
         {
           label: 'navigation',
           data: 'back to homepage',
+          count: 1,
         },
       ]),
     )

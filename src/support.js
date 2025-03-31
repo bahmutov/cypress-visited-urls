@@ -57,13 +57,21 @@ beforeEach(() => {
     // TODO: add a static method to the Cypress object
     // @ts-expect-error
     Cypress.addVisitedTestEvent = ({ label, data }) => {
+      if (typeof label !== 'string' || !label) {
+        throw new Error('label must be a non-empty string')
+      }
+      if (typeof data === 'undefined') {
+        throw new Error('data must be defined')
+      }
+
       // for now check if the event with the same label and data already exists
       const savedEvents = Cypress.env('visitedTestEvents')
       const existing = Cypress._.find(savedEvents, { label, data })
       if (existing) {
+        existing.count += 1
         return
       }
-      Cypress.env('visitedTestEvents').push({ label, data })
+      Cypress.env('visitedTestEvents').push({ label, data, count: 1 })
     }
 
     Cypress.on('url:changed', (url) => {

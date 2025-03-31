@@ -113,12 +113,12 @@
       "urls": [
         {
           "url": "/public/index.html",
-          "duration": 452,
+          "duration": 457,
           "commandsCount": 8
         },
         {
           "url": "/public/about.html",
-          "duration": 105,
+          "duration": 104,
           "commandsCount": 4
         }
       ],
@@ -127,11 +127,13 @@
           "label": "custom-event",
           "data": {
             "message": "hello"
-          }
+          },
+          "count": 2
         },
         {
           "label": "navigation",
-          "data": "back to homepage"
+          "data": "back to homepage",
+          "count": 1
         }
       ]
     }
