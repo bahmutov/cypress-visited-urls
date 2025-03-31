@@ -53,8 +53,8 @@ export default defineConfig({
         collect: true,
         urlsFilename: 'cypress-visited-urls.json',
       },
-    }
-    setupNodeEvents(cypressOn, config) {
+    },
+    setupNodeEvents(on, config) {
       visitedUrlsPlugin(on, config)
       // IMPORTANT to return the config object
       // with the any changed environment variables
