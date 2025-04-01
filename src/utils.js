@@ -7,9 +7,9 @@ const { sortKeys } = require('./universal-utils')
  * @property {Record<string, object>} allVisitedUrls
  * @property {string} specName
  * @property {string} testName
- * @property {VisitedUrls.VisitedPage[]} testUrls
+ * @property {import('./index').VisitedPage[]} testUrls
  * @property {number} durationChangeThreshold Duration should change by at least this much to be considered different
- * @property {VisitedUrls.VisitedTestEvent[]} testEvents
+ * @property {import('./index').VisitedTestEvent[]} testEvents
  */
 /**
  * Combines the existing record with all urls visited by all specs
@@ -33,8 +33,11 @@ function updateVisitedUrls({
   // spec relative path  is the key
   // value is another object
   // where the key is the test title (with "/" separators)
-  // and the value is the list of urls visited during this test
-  const specTests = allVisitedUrls[specName] || {}
+  /** @type {Record<string, { urls: import('./index').VisitedPage[], testEvents: import('./index').VisitedTestEvent[] }>} */
+  const specTests =
+    /** @type {Record<string, { urls: import('./index').VisitedPage[], testEvents: import('./index').VisitedTestEvent[] }>} */ (
+      allVisitedUrls[specName] || {}
+    )
   if (testName in specTests) {
     const prevTestData = specTests[testName]
 
@@ -87,7 +90,9 @@ function updateVisitedUrls({
   allVisitedUrls[specName] = sortKeys(specTests)
 
   // sort the spec names in the url object for easy maintenance
-  allVisitedUrls = sortKeys(allVisitedUrls)
+  allVisitedUrls = /** @type {Record<string, object>} */ (
+    sortKeys(allVisitedUrls)
+  )
 
   const updated = !Cypress._.isEqual(copy, allVisitedUrls)
   return { updated, allUrls: allVisitedUrls }
