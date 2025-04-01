@@ -4,8 +4,8 @@
 const debug = require('debug')('cypress-visited-urls')
 
 /**
- * @param {VisitedUrls.FindSpecsOptions} options
- * @returns {VisitedUrls.SpecWithTotal[]}
+ * @param {import('./index').FindSpecsOptions} options
+ * @returns {import('./index').SpecWithTotal[]}
  */
 function findSpecsByUrlAndMeasure(options) {
   if (!options) {
@@ -15,11 +15,17 @@ function findSpecsByUrlAndMeasure(options) {
   const metric = options.metric || 'commands'
   const cutoff = options.cutoff || 0
 
+  /** @type {Record<string, Record<string, { urls: { url: string, duration: number, commandsCount: number }[] }>>} */
+  const typedUrls =
+    /** @type {Record<string, Record<string, { urls: { url: string, duration: number, commandsCount: number }[] }>>} */ (
+      urls
+    )
+
   const specs = []
-  for (const spec of Object.keys(urls)) {
-    const tests = Object.keys(urls[spec])
+  for (const spec of Object.keys(typedUrls)) {
+    const tests = Object.keys(typedUrls[spec])
     for (const test of tests) {
-      const testUrls = urls[spec][test]?.urls || []
+      const testUrls = typedUrls[spec][test]?.urls || []
       for (const pageInformation of testUrls) {
         const testUrl = pageInformation.url
         if (testUrl.includes(url)) {
@@ -43,6 +49,7 @@ function findSpecsByUrlAndMeasure(options) {
   // console.table(specs)
 
   // compute the total for the given page per spec
+  /** @type {Record<string, number>} */
   const totals = {}
   specs.forEach((spec) => {
     const { spec: specName, measure } = spec
@@ -74,7 +81,7 @@ function findSpecsByUrlAndMeasure(options) {
 }
 
 /**
- * @param {VisitedUrls.FindSpecsOptions} options
+ * @param {import('./index').FindSpecsOptions} options
  * @returns {string[]}
  */
 function findSpecsByUrl(options) {

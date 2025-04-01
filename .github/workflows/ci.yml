@@ -10,6 +10,9 @@ jobs:
       - name: Run tests
         uses: cypress-io/github-action@v6
 
+      - name: Check types
+        run: npm run typecheck
+
       - name: Show specs by URL sorted by duration
         run: npm run demo-find -- --set-gha-outputs
 
