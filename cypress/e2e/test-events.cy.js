@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+// @ts-check
 
 import spok from 'cy-spok'
 
