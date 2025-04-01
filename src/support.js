@@ -1,6 +1,7 @@
 // @ts-check
 /// <reference types="cypress" />
 /// <reference path="./index.d.ts" />
+/** @typedef {import('./index').VisitedPage} VisitedPage */
 
 const { updateVisitedUrls } = require('./utils')
 
@@ -14,11 +15,11 @@ let filterUrl = Cypress._.identity
  * plus the list of URLs collected for the same test in the previous runs.
  * This function is called after the test has finished but before saving
  * the new list of URLs to the JSON file.
- * @param {VisitedUrls.VisitedPage[]} urlsInThisTest
+ * @param {VisitedPage[]} urlsInThisTest
  * @param {string[]} previousUrlsInThisTest
  * @param {string} specName
  * @param {string} testName
- * @returns {VisitedUrls.VisitedPage[]}
+ * @returns {VisitedPage[]}
  */
 let preSaveFilterUrls = (
   urlsInThisTest,
@@ -141,7 +142,7 @@ afterEach(function saveVisitedUrls() {
     })
   }
 
-  /** @type {VisitedUrls.VisitedPage[]} */
+  /** @type {VisitedPage[]} */
   let urls = []
 
   const timestamps = Cypress.env('visitedUrlsTimeStamps')
