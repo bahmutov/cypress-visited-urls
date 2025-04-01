@@ -18,7 +18,7 @@ namespace VisitedUrls {
 
   interface VisitedTestEvent {
     label: string
-    data: Record<string, any>
+    data: string | number | boolean | Record<string, any>
   }
 
   interface FindSpecsOptions {
@@ -45,5 +45,25 @@ namespace VisitedUrls {
   interface SpecWithTotal {
     spec: string
     total: number
+  }
+}
+
+declare namespace Cypress {
+  interface Cypress {
+    /**
+     * Add an event to the test record set for the current test.
+     * @param event An event to save.
+     * @see https://github.com/bahmutov/cypress-visited-urls
+     * @example
+     *   Cypress.addVisitedTestEvent({
+     *     label: 'API call',
+     *     data: {
+     *       url: '/users',
+     *       method: 'GET',
+     *       statusCode: 200,
+     *     },
+     *   })
+     */
+    addVisitedTestEvent(event: VisitedUrls.VisitedTestEvent): void
   }
 }
