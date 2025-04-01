@@ -3,6 +3,7 @@
   "version": "0.0.0-development",
   "description": "A plugin to collect all visited urls across all specs",
   "main": "src/support.js",
+  "types": "src/index.d.ts",
   "files": [
     "bin",
     "src"
