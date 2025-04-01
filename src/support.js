@@ -1,4 +1,3 @@
-// @ts-check
 /// <reference types="cypress" />
 /// <reference path="./index.d.ts" />
 /** @typedef {import('./index').VisitedPage} VisitedPage */
@@ -102,6 +101,9 @@ beforeEach(() => {
   }
 })
 
+/**
+ * @param {string} text
+ */
 function printTextToTerminal(text) {
   cy.task('visited-urls-plugin:terminal', text, { log: false })
 }
@@ -125,6 +127,7 @@ afterEach(function saveVisitedUrls() {
   const specName = Cypress.spec.relative
   const testName = Cypress.currentTest.titlePath.join(' / ')
 
+  /** @type {Record<string, { url: string, count: number }>} */
   let pageCommandCounts = {}
   const commandCounts = Cypress.env('visitedUrlsCommandCounts')
   // console.table(commandCounts)
@@ -167,6 +170,7 @@ afterEach(function saveVisitedUrls() {
     })
     // console.table(durations)
     // compute the total duration spent on each page
+    /** @type {Record<string, { url: string, duration: number, commandsCount: number }>} */
     const pageDurations = {}
     // debugger
     durations.forEach((d) => {
@@ -176,7 +180,7 @@ afterEach(function saveVisitedUrls() {
         prev.duration += duration
         pageDurations[url] = prev
       } else {
-        pageDurations[url] = { url, duration }
+        pageDurations[url] = { url, duration, commandsCount: 0 }
       }
     })
     urls = Object.values(pageDurations)
@@ -255,7 +259,17 @@ afterEach(function saveVisitedUrls() {
   }
 })
 
-export function configureVisitedUrls(options = {}) {
+/**
+ * @typedef {Object} ConfigureVisitedUrlsOptions
+ * @property {function(string): string} [filterUrl]
+ * @property {function(VisitedPage[], string[], string, string): VisitedPage[]} [preSaveFilterUrls]
+ */
+
+/**
+ * @param {ConfigureVisitedUrlsOptions} options
+ */
+export function configureVisitedUrls(options) {
+  // @ts-ignore
   filterUrl = options.filterUrl || Cypress._.identity
   if ('preSaveFilterUrls' in options) {
     // @ts-ignore

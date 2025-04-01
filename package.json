@@ -20,7 +20,8 @@
     "demo-find-table": "node ./bin/find-specs-by-url.js -f cypress-visited-urls.json -u about.html -m duration --table",
     "demo-find-table-commands": "node ./bin/find-specs-by-url.js -f cypress-visited-urls.json -u about.html --table",
     "demo-find-with-cutoff-table-commands": "node ./bin/find-specs-by-url.js -f cypress-visited-urls.json -u about.html --table --cutoff 3",
-    "demo-merge": "DEBUG=cypress-visited-urls node ./bin/merge-visited-urls.js --files 'merged-urls.json,example-files/urls-*.json' --output merged-urls.json"
+    "demo-merge": "DEBUG=cypress-visited-urls node ./bin/merge-visited-urls.js --files 'merged-urls.json,example-files/urls-*.json' --output merged-urls.json",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -36,11 +37,15 @@
   },
   "homepage": "https://github.com/bahmutov/cypress-visited-urls#readme",
   "devDependencies": {
+    "@types/debug": "^4.1.12",
+    "@types/humanize-duration": "^3.27.4",
+    "@types/node": "^22.13.17",
     "cy-spok": "^1.5.2",
     "cypress": "^14.1.0",
     "cypress-map": "^1.46.0",
     "prettier": "^3.5.1",
-    "semantic-release": "^24.2.2"
+    "semantic-release": "^24.2.2",
+    "typescript": "^5.8.2"
   },
   "dependencies": {
     "@actions/core": "^1.11.1",
