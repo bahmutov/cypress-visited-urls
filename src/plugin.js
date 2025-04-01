@@ -1,3 +1,6 @@
+/**
+ * @param {string} text
+ */
 function printTextToTerminal(text) {
   console.log(text)
   // Cypress tasks must return some value (including null)
@@ -5,6 +8,10 @@ function printTextToTerminal(text) {
   return null
 }
 
+/**
+ * @param {Cypress.PluginEvents} on
+ * @param {Cypress.PluginConfigOptions} config
+ */
 function registerVisitedUrlPlugin(on, config) {
   const { visitedUrls } = config.env
 
