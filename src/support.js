@@ -54,8 +54,7 @@ beforeEach(() => {
     Cypress.env('visitedUrlsTimeStamps', [])
     Cypress.env('visitedUrlsCommandCounts', [])
     Cypress.env('visitedTestEvents', [])
-    // TODO: add a static method to the Cypress object
-    // @ts-expect-error
+
     Cypress.addVisitedTestEvent = ({ label, data }) => {
       if (typeof label !== 'string' || !label) {
         throw new Error('label must be a non-empty string')
