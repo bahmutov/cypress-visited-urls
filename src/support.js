@@ -269,6 +269,10 @@ afterEach(function saveVisitedUrls() {
  * @param {ConfigureVisitedUrlsOptions} options
  */
 export function configureVisitedUrls(options) {
+  if (!options) {
+    options = {}
+  }
+
   // @ts-ignore
   filterUrl = options.filterUrl || Cypress._.identity
   if ('preSaveFilterUrls' in options) {
