@@ -7,6 +7,7 @@
 - 📝 blog post [Collect All URLs Visited During Cypress Test](https://glebbahmutov.com/blog/collect-tested-urls/)
 - 📝 blog post [Run Cypress Tests For The Given URL](https://glebbahmutov.com/blog/run-cypress-tests-for-the-given-url/)
 - 📝 blog post [Find Specs For The Given URL By The Test Effort](https://glebbahmutov.com/blog/specs-for-the-given-url-by-test-effort/)
+- 📝 blog post [Pick Tests By Network Calls](https://glebbahmutov.com/blog/pick-tests-by-network-calls/)
 - 🎓 online course [Testing The Swag Store](https://cypress.tips/courses/swag-store)
   - [Bonus 70: Find all specs visiting a specific URL](https://cypress.tips/courses/swag-store/lessons/bonus70)
   - [Bonus 71: Sanitize collected urls](https://cypress.tips/courses/swag-store/lessons/bonus71)
