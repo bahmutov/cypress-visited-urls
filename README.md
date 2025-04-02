@@ -12,6 +12,7 @@
   - [Bonus 71: Sanitize collected urls](https://cypress.tips/courses/swag-store/lessons/bonus71)
   - [Bonus 72: List specs that test the most](https://cypress.tips/courses/swag-store/lessons/bonus72)
 - 🎁 example project [bahmutov/cypress-visited-urls-example](https://github.com/bahmutov/cypress-visited-urls-example)
+- 🎁 example project [bahmutov/called-urls-examples](https://github.com/bahmutov/called-urls-examples)
 
 ## Install
 
@@ -59,7 +60,7 @@ export default defineConfig({
       // IMPORTANT to return the config object
       // with the any changed environment variables
       return config
-    }
+    },
   },
 })
 ```
