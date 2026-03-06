@@ -12,7 +12,9 @@ describe('Command counts', () => {
       .should('eq', '/public/index.html')
       .log('**check command counts**')
       .then(() => {
-        const commandCounts = Cypress.env('visitedUrlsCommandCounts')
+        const commandCounts = Cypress.expose(
+          'visitedUrlsCommandCounts',
+        )
         expect(commandCounts, '3 pages with commands').to.have.length(
           3,
         )

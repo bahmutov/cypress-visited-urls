@@ -2,9 +2,10 @@ const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
   defaultBrowser: 'electron',
+  allowCypressEnv: false,
   e2e: {
     // baseUrl, etc
-    env: {
+    expose: {
       visitedUrls: {
         // collect each URL the test runner visits
         // https://glebbahmutov.com/blog/collect-tested-urls/

@@ -6,7 +6,9 @@ describe('The home page', () => {
     cy.contains('h1', 'Homepage')
       .log('**check collected urls**')
       .then(() => {
-        const urls = Cypress.env('visitedUrlsSet').values().toArray()
+        const urls = Cypress.expose('visitedUrlsSet')
+          .values()
+          .toArray()
         expect(urls, 'urls').to.deep.equal(['/public/index.html'])
       })
   })

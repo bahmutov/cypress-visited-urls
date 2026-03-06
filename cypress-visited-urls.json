@@ -41,13 +41,13 @@
     "Filter before save / filters URLs for this test before saving": {
       "urls": [
         {
-          "url": "prefilter-save: /public/index.html",
-          "duration": 135,
+          "url": "prefilter-save: /public/about.html",
+          "duration": 79,
           "commandsCount": 0
         },
         {
-          "url": "prefilter-save: /public/about.html",
-          "duration": 55,
+          "url": "prefilter-save: /public/index.html",
+          "duration": 73,
           "commandsCount": 0
         }
       ],
