@@ -5,6 +5,9 @@ chai.config.truncateThreshold = 0
 describe('Filter before save', () => {
   it('filters URLs for this test before saving', () => {
     cy.visit('/public/index.html')
+    // we wait to spend more time on the "index" page
+    cy.wait(100)
+
     cy.contains('a', 'About').click()
     cy.location('pathname').should('eq', '/public/about.html')
     cy.go('back')

@@ -211,11 +211,16 @@ afterEach(function saveVisitedUrls() {
         if (!visitedUrls) {
           visitedUrls = {}
         }
+        // console.log('visitedUrls')
+        // console.log(visitedUrls)
 
         let filteredTestUrls = urls
         // the current test urls for this test
         const currentTestUrls =
           visitedUrls[specName]?.[testName]?.urls
+
+        // console.log('currentTestUrls')
+        // console.log(currentTestUrls)
         if (
           Array.isArray(currentTestUrls) &&
           currentTestUrls.length
@@ -228,9 +233,16 @@ afterEach(function saveVisitedUrls() {
             specName,
             testName,
           )
-          if (!filteredTestUrls) {
-            filteredTestUrls = urls
-          }
+        } else {
+          filteredTestUrls = preSaveFilterUrls(
+            filteredTestUrls,
+            [],
+            specName,
+            testName,
+          )
+        }
+        if (!filteredTestUrls) {
+          filteredTestUrls = urls
         }
 
         // add command counts to each test page
