@@ -40,7 +40,7 @@
     "@types/debug": "^4.1.12",
     "@types/humanize-duration": "^3.27.4",
     "@types/node": "^22.13.17",
-    "cy-spok": "^1.5.2",
+    "cy-spok": "^1.7.0",
     "cypress": "^15.11.0",
     "cypress-map": "^1.46.0",
     "prettier": "^3.5.1",

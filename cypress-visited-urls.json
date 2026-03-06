@@ -24,14 +24,14 @@
     "Command counts / counts commands per page": {
       "urls": [
         {
-          "url": "/public/index.html",
-          "duration": 135,
-          "commandsCount": 6
+          "url": "/public/about.html",
+          "duration": 83,
+          "commandsCount": 3
         },
         {
-          "url": "/public/about.html",
-          "duration": 55,
-          "commandsCount": 2
+          "url": "/public/index.html",
+          "duration": 61,
+          "commandsCount": 6
         }
       ],
       "testEvents": []
