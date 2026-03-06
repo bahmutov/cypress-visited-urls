@@ -84,7 +84,7 @@ e2e: {
     // only collect visited URLs on CI
     if (process.env.CI) {
       console.log('setting to collect visited urls on CI')
-      config.env.visitedUrls.collect = true
+      config.expose.visitedUrls.collect = true
     }
     cypressVisitedUrls(on, config)
     // return the config object

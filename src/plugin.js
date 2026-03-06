@@ -13,7 +13,7 @@ function printTextToTerminal(text) {
  * @param {Cypress.PluginConfigOptions} config
  */
 function registerVisitedUrlPlugin(on, config) {
-  const { visitedUrls } = config.env
+  const { visitedUrls } = config.expose || {}
 
   if (!visitedUrls) {
     // nothing to register, this plugin isn't configured

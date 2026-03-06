@@ -28,17 +28,17 @@ let preSaveFilterUrls = (
 ) => urlsInThisTest
 
 function shouldCollectUrls() {
-  const pluginConfig = Cypress.env('visitedUrls')
+  const pluginConfig = Cypress.expose('visitedUrls')
   return Boolean(pluginConfig?.collect)
 }
 
 function getVisitedUrlsFilename() {
-  const pluginConfig = Cypress.env('visitedUrls')
+  const pluginConfig = Cypress.expose('visitedUrls')
   return pluginConfig?.urlsFilename
 }
 
 function onCommandEnd() {
-  const commandCounts = Cypress.env('visitedUrlsCommandCounts')
+  const commandCounts = Cypress.expose('visitedUrlsCommandCounts')
   if (commandCounts.length) {
     const theCurrentCount = commandCounts[commandCounts.length - 1]
     theCurrentCount.count += 1
@@ -50,10 +50,10 @@ beforeEach(() => {
   if (collectUrls) {
     // TODO: deprecate this set of just urls
     // in favor of visitedUrlsTimeStamps that has urls and durations
-    Cypress.env('visitedUrlsSet', new Set())
-    Cypress.env('visitedUrlsTimeStamps', [])
-    Cypress.env('visitedUrlsCommandCounts', [])
-    Cypress.env('visitedTestEvents', [])
+    Cypress.expose('visitedUrlsSet', new Set())
+    Cypress.expose('visitedUrlsTimeStamps', [])
+    Cypress.expose('visitedUrlsCommandCounts', [])
+    Cypress.expose('visitedTestEvents', [])
 
     Cypress.addVisitedTestEvent = ({ label, data }) => {
       if (typeof label !== 'string' || !label) {
@@ -64,13 +64,17 @@ beforeEach(() => {
       }
 
       // for now check if the event with the same label and data already exists
-      const savedEvents = Cypress.env('visitedTestEvents')
+      const savedEvents = Cypress.expose('visitedTestEvents')
       const existing = Cypress._.find(savedEvents, { label, data })
       if (existing) {
         existing.count += 1
         return
       }
-      Cypress.env('visitedTestEvents').push({ label, data, count: 1 })
+      Cypress.expose('visitedTestEvents').push({
+        label,
+        data,
+        count: 1,
+      })
     }
 
     Cypress.on('url:changed', (url) => {
@@ -81,14 +85,14 @@ beforeEach(() => {
       if (url) {
         const filteredUrl = filterUrl(url)
         if (filteredUrl) {
-          Cypress.env('visitedUrlsSet').add(filteredUrl)
-          const timestamps = Cypress.env('visitedUrlsTimeStamps')
+          Cypress.expose('visitedUrlsSet').add(filteredUrl)
+          const timestamps = Cypress.expose('visitedUrlsTimeStamps')
           timestamps.push({
             url: filteredUrl,
             timestamp: +Date.now(),
           })
 
-          const counts = Cypress.env('visitedUrlsCommandCounts')
+          const counts = Cypress.expose('visitedUrlsCommandCounts')
           counts.push({
             url: filteredUrl,
             count: 0,
@@ -129,7 +133,7 @@ afterEach(function saveVisitedUrls() {
 
   /** @type {Record<string, { url: string, count: number }>} */
   let pageCommandCounts = {}
-  const commandCounts = Cypress.env('visitedUrlsCommandCounts')
+  const commandCounts = Cypress.expose('visitedUrlsCommandCounts')
   // console.table(commandCounts)
   if (Array.isArray(commandCounts) && commandCounts.length) {
     // calculate the sum of command counts for each URL
@@ -148,7 +152,7 @@ afterEach(function saveVisitedUrls() {
   /** @type {VisitedPage[]} */
   let urls = []
 
-  const timestamps = Cypress.env('visitedUrlsTimeStamps')
+  const timestamps = Cypress.expose('visitedUrlsTimeStamps')
   if (Array.isArray(timestamps) && timestamps.length) {
     const now = +Date.now()
     const durations = timestamps.map((ts, k) => {
@@ -195,7 +199,7 @@ afterEach(function saveVisitedUrls() {
     printTextToTerminal(`${specName} test "${testName}" ${text}`)
   }
 
-  const testEvents = Cypress.env('visitedTestEvents')
+  const testEvents = Cypress.expose('visitedTestEvents')
   cy.log(`${testEvents.length} test events`)
 
   const filename = getVisitedUrlsFilename()
@@ -207,11 +211,16 @@ afterEach(function saveVisitedUrls() {
         if (!visitedUrls) {
           visitedUrls = {}
         }
+        // console.log('visitedUrls')
+        // console.log(visitedUrls)
 
         let filteredTestUrls = urls
         // the current test urls for this test
         const currentTestUrls =
           visitedUrls[specName]?.[testName]?.urls
+
+        // console.log('currentTestUrls')
+        // console.log(currentTestUrls)
         if (
           Array.isArray(currentTestUrls) &&
           currentTestUrls.length
@@ -224,9 +233,16 @@ afterEach(function saveVisitedUrls() {
             specName,
             testName,
           )
-          if (!filteredTestUrls) {
-            filteredTestUrls = urls
-          }
+        } else {
+          filteredTestUrls = preSaveFilterUrls(
+            filteredTestUrls,
+            [],
+            specName,
+            testName,
+          )
+        }
+        if (!filteredTestUrls) {
+          filteredTestUrls = urls
         }
 
         // add command counts to each test page

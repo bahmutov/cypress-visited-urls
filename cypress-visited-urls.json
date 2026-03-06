@@ -8,13 +8,13 @@
       "urls": [
         {
           "url": "/public/index.html",
-          "duration": 135,
-          "commandsCount": 6
+          "duration": 81,
+          "commandsCount": 5
         },
         {
           "url": "/public/about.html",
-          "duration": 53,
-          "commandsCount": 2
+          "duration": 71,
+          "commandsCount": 3
         }
       ],
       "testEvents": []
@@ -25,13 +25,13 @@
       "urls": [
         {
           "url": "/public/index.html",
-          "duration": 135,
-          "commandsCount": 6
+          "duration": 175,
+          "commandsCount": 7
         },
         {
           "url": "/public/about.html",
-          "duration": 55,
-          "commandsCount": 2
+          "duration": 74,
+          "commandsCount": 3
         }
       ],
       "testEvents": []
@@ -42,12 +42,12 @@
       "urls": [
         {
           "url": "prefilter-save: /public/index.html",
-          "duration": 135,
+          "duration": 177,
           "commandsCount": 0
         },
         {
           "url": "prefilter-save: /public/about.html",
-          "duration": 55,
+          "duration": 78,
           "commandsCount": 0
         }
       ],
@@ -59,7 +59,7 @@
       "urls": [
         {
           "url": "/public/index.html",
-          "duration": 3,
+          "duration": 13,
           "commandsCount": 2
         }
       ],
@@ -101,7 +101,7 @@
       "urls": [
         {
           "url": "/public/index.html",
-          "duration": 6,
+          "duration": 21,
           "commandsCount": 4
         }
       ],
@@ -113,13 +113,13 @@
       "urls": [
         {
           "url": "/public/index.html",
-          "duration": 457,
-          "commandsCount": 8
+          "duration": 380,
+          "commandsCount": 7
         },
         {
           "url": "/public/about.html",
-          "duration": 104,
-          "commandsCount": 4
+          "duration": 134,
+          "commandsCount": 5
         }
       ],
       "testEvents": [
@@ -143,13 +143,13 @@
       "urls": [
         {
           "url": "/public/index.html",
-          "duration": 453,
-          "commandsCount": 6
+          "duration": 369,
+          "commandsCount": 5
         },
         {
           "url": "/public/about.html",
-          "duration": 105,
-          "commandsCount": 3
+          "duration": 135,
+          "commandsCount": 4
         }
       ],
       "testEvents": []

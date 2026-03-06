@@ -8,6 +8,13 @@ configureVisitedUrls({
   },
   // filtering all collected URLs before saving to the JSON file
   preSaveFilterUrls(visitedUrls, previousUrls, specName, testName) {
+    // console.log('preSaveFilterUrls', {
+    //   visitedUrls,
+    //   previousUrls,
+    //   specName,
+    //   testName,
+    // })
+
     if (!Array.isArray(visitedUrls)) {
       throw new Error('Expected urls to be a list')
     }
